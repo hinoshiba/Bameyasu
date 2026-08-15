@@ -1,0 +1,3 @@
+"NSCameraUsageDescription" = "Bameyasu analyzes camera input live to estimate desk illuminance and contrast. Images and video are not saved or transmitted.";
+"NSMicrophoneUsageDescription" = "Bameyasu analyzes ambient sound live on device. Audio is not saved or transmitted.";
+"NSMotionUsageDescription" = "Bameyasu uses motion sensors to check desk vibration and tilt.";

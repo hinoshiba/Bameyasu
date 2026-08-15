@@ -1,0 +1,3 @@
+"NSCameraUsageDescription" = "机上の明るさと明暗差をカメラ入力からリアルタイム解析します。画像や映像は保存・送信されません。";
+"NSMicrophoneUsageDescription" = "周囲の音量を端末上でリアルタイム解析します。音声は保存・送信されません。";
+"NSMotionUsageDescription" = "机の揺れと傾きを測定するためにモーションセンサーを使用します。";

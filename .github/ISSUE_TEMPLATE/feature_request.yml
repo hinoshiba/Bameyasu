@@ -1,0 +1,24 @@
+name: Feature request / 機能提案
+description: Propose a user problem and an evidence-aware solution
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: User problem
+      description: Describe the situation and impact before proposing a sensor or implementation.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Public API, evidence, calibration, and privacy
+      description: For measurements, link the public Apple API and primary guidance, and explain units, validation, and failure behavior.
+    validations:
+      required: false

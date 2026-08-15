@@ -1,0 +1,32 @@
+Bameyasu — Third-Party Notices
+================================================================================
+
+Runtime open-source components
+--------------------------------------------------------------------------------
+The current Bameyasu application binary includes no third-party runtime
+open-source library, SDK, font, photograph, sound, or icon pack.
+
+Apple platform technologies
+--------------------------------------------------------------------------------
+SwiftUI, Foundation, AVFoundation, Core Motion, Charts, UIKit, and SF Symbols
+are Apple platform technologies used under the applicable Apple agreements.
+They are not relicensed under Bameyasu's MIT License. SF Symbols are used only
+inside the Apple-platform UI and are not used as Bameyasu's logo or app icon.
+
+Development-only tool
+--------------------------------------------------------------------------------
+XcodeGen — https://github.com/yonaskolb/XcodeGen — MIT License
+XcodeGen is used to generate the Xcode project during development and CI. It
+is not linked, embedded, or distributed in the Bameyasu app binary.
+
+Evidence sources
+--------------------------------------------------------------------------------
+Public guidance is linked and independently summarized in SOURCES.md. Source
+logos, photographs, diagrams, and long passages are not included. The source
+organizations do not endorse Bameyasu.
+
+Maintenance rule
+--------------------------------------------------------------------------------
+Before adding or updating any dependency or asset, record its exact version,
+copyright holder, official URL, SPDX identifier, binary inclusion status, and
+full required notice here. See docs/LICENSE_AUDIT.md.

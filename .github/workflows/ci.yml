@@ -1,0 +1,49 @@
+name: iOS CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Release-readiness checks
+        run: ./Scripts/check-release-readiness.sh
+
+      - name: Generate project
+        run: xcodegen generate
+
+      - name: Build
+        run: |
+          xcodebuild \
+            -project Bameyasu.xcodeproj \
+            -scheme Bameyasu \
+            -destination 'generic/platform=iOS Simulator' \
+            build \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Unit tests
+        run: |
+          xcodebuild \
+            -project Bameyasu.xcodeproj \
+            -scheme Bameyasu \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            test \
+            CODE_SIGNING_ALLOWED=NO
