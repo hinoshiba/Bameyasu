@@ -4,7 +4,6 @@ build/
 *.xcworkspace/xcuserdata/
 *.xcodeproj/xcuserdata/
 *.xcuserstate
-Bameyasu.xcodeproj/
 
 # Signing, credentials, and release artifacts must never enter this public repository.
 .env
