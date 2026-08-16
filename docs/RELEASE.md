@@ -8,7 +8,7 @@ This follows the useful operating principles in [Youyaku](https://github.com/hin
 2. Confirm that the canonical repository remains `hinoshiba/Bameyasu`, that
    `origin` points to it, and that every in-app source, issue, and security URL
    resolves before release.
-3. Register `bameyasu.hinoshiba.com` and enable only required capabilities. A
+3. Register `com.hinoshiba.bameyasu` and enable only required capabilities. A
    bundle identifier cannot be changed after the App Store record is created.
    Changing from any previous pre-release identifier creates a new sandbox
    identity, and this repository does not provide automatic data migration. If

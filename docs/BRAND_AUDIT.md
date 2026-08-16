@@ -1,7 +1,7 @@
 # Brand Name Audit
 
 Audit date: 2026-08-15
-Bundle identifier update: 2026-08-16
+Bundle identifier verification: 2026-08-16
 Decision: **conditional go**
 Selected name: **Bameyasu**
 Japanese reading: **バメヤス**
@@ -35,8 +35,8 @@ Canonical brand system:
 | English App Store name | `Bameyasu – Workspace Check` |
 | Japanese launch copy | `場の目安。仕事環境を、測って整える。` |
 | English launch copy | `A practical reference for a better workspace.` |
-| App bundle identifier | `bameyasu.hinoshiba.com` |
-| Test bundle identifier | `bameyasu.hinoshiba.com.tests` |
+| App bundle identifier | `com.hinoshiba.bameyasu` |
+| Test bundle identifier | `com.hinoshiba.bameyasu.tests` |
 | Xcode project / target / scheme / module | `Bameyasu` |
 | Repository | `hinoshiba/Bameyasu` |
 | Hashtag | `#Bameyasu` |
@@ -56,7 +56,7 @@ reserve any name.
 | Surface | Query scope | Result |
 |---|---|---|
 | Apple iTunes Search API | Japan/US; `Bameyasu`, `バメヤス` | No exact app-name match |
-| Apple bundle lookup | `bameyasu.hinoshiba.com` | No public listing (rechecked 2026-08-16) |
+| Apple bundle lookup | `com.hinoshiba.bameyasu` | No public listing in Japan or the US (rechecked 2026-08-16) |
 | Google Play | Japan/US indexed listings | No exact app-name match |
 | General web | Exact, quoted, spaced, hyphenated, and romanization variants | No exact software, sensor, health, or workplace brand |
 | GitHub | Repository names and account names | No exact match; the shorter `bameya` account is already held and must not be used |
@@ -179,7 +179,7 @@ commercial launch:
    practical;
 4. reserve `bameyasu` domains and social/developer handles; an unregistered
    lookup is not a reservation;
-5. create the App Store Connect record for `bameyasu.hinoshiba.com` before the
+5. create the App Store Connect record for `com.hinoshiba.bameyasu` before the
    public announcement;
 6. rerun this audit immediately before filing and before release.
 

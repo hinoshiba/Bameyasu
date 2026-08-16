@@ -61,22 +61,23 @@ if rg -n 'Habimetry|habimetry|ハビメトリー|com\.hinoshiba\.akari|hinoshiba
   exit 1
 fi
 
-legacy_bundle_id=$(printf '%s%s' 'com.hinoshiba.' 'bameyasu')
-if git grep -niF "$legacy_bundle_id" -- .; then
-  echo "error: legacy Bameyasu bundle identifier found" >&2
+noncanonical_bundle_id=$(printf '%s%s' 'bameyasu.hinoshiba.' 'com')
+if rg -nF "$noncanonical_bundle_id" \
+  project.yml Bameyasu/Services/LightMeter.swift Bameyasu/Services/MotionMeter.swift; then
+  echo "error: noncanonical Bameyasu identifier found" >&2
   exit 1
 fi
 
-if git grep -IioE 'bameyasu\.hinoshiba\.com' -- . \
+if git grep -IioE 'com\.hinoshiba\.bameyasu' -- . \
   | cut -d: -f2- \
-  | grep -Fvx 'bameyasu.hinoshiba.com'; then
+  | grep -Fvx 'com.hinoshiba.bameyasu'; then
   echo "error: Bameyasu identifier must be lowercase" >&2
   exit 1
 fi
 
 configured_bundle_ids=$(sed -n 's/^[[:space:]]*PRODUCT_BUNDLE_IDENTIFIER: //p' project.yml)
-expected_bundle_ids='bameyasu.hinoshiba.com
-bameyasu.hinoshiba.com.tests'
+expected_bundle_ids='com.hinoshiba.bameyasu
+com.hinoshiba.bameyasu.tests'
 
 if [ "$configured_bundle_ids" != "$expected_bundle_ids" ]; then
   echo "error: unexpected product bundle identifier in project.yml" >&2
@@ -84,7 +85,15 @@ if [ "$configured_bundle_ids" != "$expected_bundle_ids" ]; then
 fi
 
 grep -Fqx 'name: Bameyasu' project.yml
-grep -Fqx '  bundleIdPrefix: bameyasu.hinoshiba.com' project.yml
+grep -Fqx '  bundleIdPrefix: com.hinoshiba' project.yml
+grep -Fq '| App bundle identifier | `com.hinoshiba.bameyasu` |' docs/BRAND_AUDIT.md
+grep -Fq '| Test bundle identifier | `com.hinoshiba.bameyasu.tests` |' docs/BRAND_AUDIT.md
+grep -Fq '| Apple bundle lookup | `com.hinoshiba.bameyasu` |' docs/BRAND_AUDIT.md
+grep -Fq 'App Store Connect record for `com.hinoshiba.bameyasu`' docs/BRAND_AUDIT.md
+grep -Fq 'Register `com.hinoshiba.bameyasu`' docs/RELEASE.md
+grep -Fq 'DispatchQueue(label: "com.hinoshiba.bameyasu.camera.session")' Bameyasu/Services/LightMeter.swift
+grep -Fq 'DispatchQueue(label: "com.hinoshiba.bameyasu.camera.samples"' Bameyasu/Services/LightMeter.swift
+grep -Fq 'queue.name = "com.hinoshiba.bameyasu.motion"' Bameyasu/Services/MotionMeter.swift
 grep -q 'https://github.com/hinoshiba/Bameyasu' Bameyasu/Views/SettingsView.swift
 
 if find . -maxdepth 3 -type f \( -name Package.resolved -o -name Podfile.lock -o -name Cartfile.resolved \) | grep -q .; then
