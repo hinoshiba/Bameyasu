@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#f8f4ec">
-    <meta name="description" content="Bameyasu is an on-device workspace check app that uses an iPhone to review light, sound, desk vibration, and ergonomics in about 60 seconds, then suggests one thing to fix first.">
+    <meta name="description" content="Bameyasu uses the iPhone camera, microphone, motion sensors, and self-checks to visualize a workspace in about 60 seconds and track before-and-after changes.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Bameyasu">
     <meta property="og:title" content="Bameyasu — A practical reference for a better workspace.">
-    <meta property="og:description" content="See the real app screens, features, measurement methodology, privacy, terms, and support—all on one page.">
+    <meta property="og:description" content="Visualize your workspace in about 60 seconds. See real screens, four checks, improvement tracking, and on-device processing—all on one page.">
     <meta property="og:url" content="https://bameyasu.hinoshiba.com/en/">
     <meta property="og:image" content="https://bameyasu.hinoshiba.com/assets/app-icon.png">
     <meta property="og:image:width" content="1024">
@@ -36,7 +36,7 @@
         <nav class="main-nav" aria-label="Main navigation">
           <a href="#screens">Screens</a>
           <a href="#features">Features</a>
-          <a href="#method">Method</a>
+          <a href="#method">Compare</a>
           <a href="#privacy">Privacy</a>
           <a href="#support">Support</a>
           <a class="language-link" href="../" lang="ja" hreflang="ja">日本語</a>
@@ -49,19 +49,19 @@
         <div class="shell hero-grid">
           <div class="hero-copy">
             <p class="eyebrow"><span aria-hidden="true"></span> About 60 seconds on iPhone</p>
-            <h1>Measure your workspace.<br><em>Improve one thing first.</em></h1>
-            <p class="lead">Bameyasu is an on-device SwiftUI app that uses your iPhone to review light, sound, desk vibration, and ergonomics, then suggests one practical action to try first.</p>
+            <h1>See your workspace clearly.<br><em>Choose the next step.</em></h1>
+            <p class="lead">Bameyasu uses the iPhone camera, microphone, motion sensors, and self-checks to visualize light, sound, desk vibration, and ergonomics in about 60 seconds. It summarizes the check with workspace readiness and “Fix this first,” then lets you review before-and-after changes.</p>
             <div class="hero-actions">
               <a class="button primary" href="#screens">See the real screens <span aria-hidden="true">↓</span></a>
               <a class="button secondary" href="https://github.com/hinoshiba/Bameyasu">GitHub <span aria-hidden="true">↗</span></a>
             </div>
-            <ul class="quick-facts" aria-label="Compatibility">
+            <ul class="quick-facts" role="list" aria-label="Compatibility">
               <li>iOS 17+</li>
               <li>iPhone</li>
               <li>English / 日本語</li>
               <li>On-device</li>
             </ul>
-            <p class="prototype-note"><strong>Development build v0.1.0</strong> — An engineering prototype for wellness, education, and productivity. It is not a medical device, calibrated lux or sound-level meter, or statutory workplace measurement instrument.</p>
+            <p class="prototype-note"><strong>Development build v0.1.0</strong> — A wellness, education, and productivity tool for reviewing everyday workspaces and comparing changes after practical improvements. Results include reference estimates and Bameyasu-specific guidance; the app is not a medical device, calibrated meter, or compliance instrument.</p>
           </div>
 
           <figure class="hero-device">
@@ -103,7 +103,7 @@
             </figure>
             <figure class="screen-card">
               <div class="screen-image"><img src="../assets/screenshots/en-guide.webp" width="736" height="1600" alt="Guide screen explaining measurement methods, the workspace readiness calculation, and items that require external sensors." loading="lazy"></div>
-              <figcaption><span>05</span><div><strong>Understand the limits</strong><p>See what Bameyasu can measure, what it cannot, how it calculates results, and the supporting evidence.</p></div></figcaption>
+              <figcaption><span>05</span><div><strong>See the method and evidence</strong><p>Review the measurement scope, calculation method, and primary sources inside the app.</p></div></figcaption>
             </figure>
           </div>
         </div>
@@ -112,48 +112,48 @@
       <section class="section features-section" id="features">
         <div class="shell">
           <div class="section-heading">
-            <p class="kicker">Four perspectives</p>
-            <h2>Review your usual desk,<br>one step at a time.</h2>
-            <p>Sensor readings and self-checks are kept distinct, and the confidence of each is made clear. Images, audio, and raw sensor data are not saved.</p>
+            <p class="kicker">Four ways to put your iPhone to work</p>
+            <h2>Light, sound, motion, and posture<br>in one guided flow.</h2>
+            <p>The camera, microphone, motion sensors, and self-checks work together to visualize your workspace from several angles. Sensor input is processed on device, and history keeps only the information needed for results.</p>
           </div>
 
           <div class="feature-grid">
             <article class="feature-card orange">
               <span class="feature-number">01 · 10 sec</span>
-              <div class="feature-icon" aria-hidden="true">☀</div>
+              <div class="feature-icon icon-light" aria-hidden="true"></div>
               <h3>Lighting</h3>
               <p>Bameyasu estimates work-surface illuminance and contrast from rear wide-camera ISO, exposure duration, aperture, and relative luminance across nine frame regions.</p>
-              <small>300 lx is a reference for ordinary office work, not a compliance measurement.</small>
+              <small>Use the 300 lx reference for ordinary office work as a starting point when reviewing your lighting—not as a compliance determination.</small>
             </article>
             <article class="feature-card blue">
               <span class="feature-number">02 · 15 sec</span>
               <div class="feature-icon waveform" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
               <h3>Sound</h3>
-              <p>Bameyasu prefers 48 kHz input and applies A-weighting when the actual input is near 48 kHz, then estimates an equivalent level on device. It performs no speech recognition and creates no audio file.</p>
-              <small>Before comparison calibration it is shown as “ref. dB*” and excluded from readiness.</small>
+              <p>Visualize a short-term reference for surrounding sound in 15 seconds. When the device supplies input near 48 kHz, Bameyasu applies A-weighting and calculates a reference value on device. It does not recognize speech or create an audio file.</p>
+              <small>Before comparison calibration, “ref. dB*” gives you a cue for reviewing quietness; after calibration, sound can also contribute to readiness.</small>
             </article>
             <article class="feature-card green">
               <span class="feature-number">03 · 8 sec</span>
-              <div class="feature-icon" aria-hidden="true">◎</div>
+              <div class="feature-icon icon-desk" aria-hidden="true"><i></i></div>
               <h3>Desk stability</h3>
-              <p>Bameyasu uses Core Motion at 30 Hz to review acceleration RMS and tilt against its own guide, helping you notice a wobbly desk or vibrating equipment.</p>
-              <small>This is not a health, safety, or structural assessment and is excluded from readiness.</small>
+              <p>Bameyasu uses Core Motion at 30 Hz to visualize small desk movements and tilt, giving you a practical cue for finding wobble or vibrating equipment.</p>
+              <small>It stays separate from readiness as a practical desk-adjustment reference, not a health, safety, or structural assessment.</small>
             </article>
             <article class="feature-card yellow">
               <span class="feature-number">04 · Self-check</span>
-              <div class="feature-icon" aria-hidden="true">⌁</div>
+              <div class="feature-icon icon-checklist" aria-hidden="true"><i></i><i></i><i></i></div>
               <h3>Ergonomics</h3>
               <p>Seven items cover screen distance and height, shoulders and elbows, back and lower back, feet, glare, and breaks in continuous work.</p>
-              <small>An unchecked item means “not confirmed,” not necessarily “bad.”</small>
+              <small>Confirmed items contribute to the result, and the first unchecked item can become the next point to review.</small>
             </article>
           </div>
 
-          <div class="capability-strip">
-            <div><strong>50 + 10 min</strong><span>Focus timer and work-break guide</span></div>
-            <div><strong>Latest 14</strong><span>Readiness trend chart; history keeps up to 100 checks</span></div>
-            <div><strong>Accessible</strong><span>Dynamic Type, VoiceOver, and Reduce Motion</span></div>
-            <div><strong>EN / JA</strong><span>Follows the device's preferred language</span></div>
-          </div>
+          <ul class="capability-strip" role="list" aria-label="Features for continued use">
+            <li><span class="capability-icon icon-clock" aria-hidden="true"><i></i></span><div><strong>50 + 10 min</strong><span>Focus timer and work-break guide</span></div></li>
+            <li><span class="capability-icon icon-history" aria-hidden="true"><i></i><i></i><i></i></span><div><strong>Latest 14</strong><span>Readiness trend chart; history keeps up to 100 checks</span></div></li>
+            <li><span class="capability-icon icon-access" aria-hidden="true">Aa</span><div><strong>Accessible</strong><span>Dynamic Type, VoiceOver, and Reduce Motion</span></div></li>
+            <li><span class="capability-icon icon-language" aria-hidden="true">A<span>/</span>あ</span><div><strong>EN / JA</strong><span>Follows the device's preferred language</span></div></li>
+          </ul>
         </div>
       </section>
 
@@ -162,9 +162,9 @@
           <div class="section-heading compact">
             <p class="kicker">How it works</p>
             <h2>About 60 seconds,<br>three steps.</h2>
-            <p>You can skip a measurement if you decline its permission and continue the check. Permissions are requested only when needed.</p>
+            <p>Choose the checks you want to run. Each permission is requested only when its step begins, and you can continue when a check is skipped.</p>
           </div>
-          <ol class="steps">
+          <ol class="steps" role="list">
             <li><span>1</span><div><h3>Start at your usual desk</h3><p>Place your iPhone where you normally work, with your setup in its usual state.</p></div></li>
             <li><span>2</span><div><h3>Follow the guidance</h3><p>Review light, sound, desk stability, and ergonomics in order.</p></div></li>
             <li><span>3</span><div><h3>Improve one thing first</h3><p>Try the highest-priority suggestion, then compare it with your next saved check.</p></div></li>
@@ -176,46 +176,47 @@
         <div class="shell">
           <div class="method-intro">
             <div class="section-heading compact">
-              <p class="kicker light">Measurement approach</p>
-              <h2>Never fill gaps<br>with guesses.</h2>
-              <p>Workspace readiness v0.1.0 is Bameyasu's own guide for prioritizing improvements. It is not a public index or a health or safety score.</p>
+              <p class="kicker light">Compare before and after</p>
+              <h2>Put your iPhone's built-in sensors to work<br>and make before-and-after changes visible.</h2>
+              <p>Run camera, microphone, motion-sensor, and self-check steps in one consistent flow, then save the calculated results. Light and ergonomics form the core, comparison-calibrated sound can join them, and repeated checks help you review what changed after an improvement.</p>
             </div>
             <div class="score-panel" role="group" aria-label="Workspace readiness weights">
               <div class="score-weight light-weight"><span>60%</span><strong>Estimated light</strong></div>
               <div class="score-weight ergo-weight"><span>40%</span><strong>Ergonomics</strong></div>
-              <p><strong>Comparison-calibrated sound only: +35%</strong><br>Available weights are normalized to 100. Readiness is not shown unless both light and ergonomics are available.</p>
+              <p><strong>Comparison-calibrated sound: +35% when available</strong><br>Available weights are normalized to 100. Bameyasu shows readiness when both light and ergonomics are available.</p>
             </div>
           </div>
 
           <div class="method-grid">
             <article>
-              <span class="method-label">Included</span>
-              <h3>Confidence stays explicit</h3>
-              <p>Estimated light is weighted 60% and ergonomics 40%. Sound is added only after the user confirms comparison calibration against a reference meter. Unavailable values are omitted.</p>
+              <span class="method-label">Readiness inputs</span>
+              <h3>Combine each signal at the right confidence</h3>
+              <p>Estimated light contributes 60% and ergonomics 40%. Sound joins after the user confirms comparison calibration against a reference meter, building readiness from the available inputs.</p>
             </article>
             <article>
-              <span class="method-label">Excluded</span>
-              <h3>Values with a different meaning</h3>
-              <p>Desk vibration, uncalibrated sound, and unavailable values are excluded from readiness. A 15-second sound reading is not an eight-hour time-weighted average, and comparison calibration still does not make Bameyasu a statutory meter.</p>
+              <span class="method-label">Separate insights</span>
+              <h3>Use desk and sound as practical cues</h3>
+              <p>Desk vibration and uncalibrated sound remain visible on their own, separate from readiness. Desk vibration is not a health, safety, or structural assessment. A 15-second sound level is a short-term reference, not a substitute for an eight-hour time-weighted average or statutory measurement.</p>
             </article>
             <article>
-              <span class="method-label">Not guaranteed</span>
-              <h3>Do not substitute it for judgment</h3>
-              <p>A high readiness score means only that the items Bameyasu could check were within its current guide. It does not guarantee health, safety, comfort, productivity, or legal compliance.</p>
+              <span class="method-label">Review the change</span>
+              <h3>Compare before and after consistently</h3>
+              <p>Workspace readiness is Bameyasu's own summary of the items checked. Repeat the same flow at the same desk to review progress and choose the next step. It is not used to guarantee or determine health, safety, comfort, productivity, or legal compliance.</p>
             </article>
           </div>
 
           <div class="not-measured">
             <div>
-              <p class="kicker light">Not measured by iPhone alone</p>
-              <h3>Appropriate external instruments are required.</h3>
+              <p class="kicker light">Check separately with dedicated instruments</p>
+              <h3>Use the right external instrument or professional method for each condition.</h3>
+              <p class="not-measured-copy">Bameyasu keeps these conditions outside its measurement scope and points to appropriate external instruments when they are needed.</p>
             </div>
-            <ul aria-label="Items Bameyasu does not measure">
+            <ul role="list" aria-label="Conditions to check with external instruments">
               <li>Temperature</li><li>Humidity</li><li>CO₂</li><li>CO</li><li>PM2.5</li><li>VOCs</li><li>Formaldehyde</li><li>Airflow</li><li>UV</li><li>EMF safety</li><li>Air quality</li>
             </ul>
           </div>
 
-          <p class="validation-note"><strong>Validation status:</strong> v0.1.0 is an engineering prototype. Camera illuminance estimates and reference sound levels have not yet completed a multi-device validation study against traceable instruments.</p>
+          <p class="validation-note"><strong>Value context:</strong> v0.1.0 is an engineering prototype that presents camera illuminance estimates and reference sound levels as workspace-review references. Multi-device validation against traceable instruments has not yet been completed.</p>
         </div>
       </section>
 
@@ -224,16 +225,16 @@
           <div class="section-heading split-heading">
             <div>
               <p class="kicker">Privacy</p>
-              <h2>Your workspace data<br>stays in your workspace.</h2>
+              <h2>Checks and history<br>stay on your iPhone.</h2>
             </div>
-            <div><p>Bameyasu does not collect data from the app. It has no account system, advertising, analytics SDK, crash-reporting SDK, or cloud synchronization.</p><p class="effective-date">Effective: August 16, 2026</p></div>
+            <div><p>Bameyasu works without accounts, advertising, cloud synchronization, or analytics and crash-reporting SDKs. Checks run on device, and history and settings stay on your iPhone.</p><p class="effective-date">Effective: August 16, 2026</p></div>
           </div>
 
           <div class="privacy-grid">
             <article class="privacy-card privacy-lead-card">
               <div class="privacy-mark" aria-hidden="true"><span>ON</span><strong>DEVICE</strong></div>
-              <h3>Sensor input is processed in place</h3>
-              <p>Camera, microphone, and motion input are processed live on device only during the corresponding check. Images, video, audio, and raw sensor data are not saved or transmitted, and Bameyasu performs no speech recognition.</p>
+              <h3>Sensor input is processed on your iPhone</h3>
+              <p>Camera, microphone, and motion inputs are processed live on device only during the corresponding check, then discarded without being saved or transmitted. Bameyasu does not perform speech recognition. History stores completed-check summaries, while settings are kept separately on device.</p>
             </article>
             <article class="privacy-card">
               <span class="privacy-number">01</span>
@@ -242,8 +243,8 @@
             </article>
             <article class="privacy-card">
               <span class="privacy-number">02</span>
-              <h3>Data not stored</h3>
-              <p>History does not contain images, audio, raw frames or samples, contacts, location, identifiers, or advertising data.</p>
+              <h3>History keeps only what results need</h3>
+              <p>History stores only the information needed for check results and leaves out images, audio, raw frames or samples, contacts, location, identifiers, and advertising data.</p>
             </article>
             <article class="privacy-card">
               <span class="privacy-number">03</span>
@@ -252,23 +253,23 @@
             </article>
             <article class="privacy-card">
               <span class="privacy-number">04</span>
-              <h3>External links</h3>
-              <p>The app does not contact a server by itself. If you open an external link, the destination receives ordinary web-request information such as your IP address and user agent under its own privacy policy.</p>
+              <h3>External links open only when you choose</h3>
+              <p>Checks run without contacting a Bameyasu server. When you choose an external link, its destination receives ordinary web-request information such as your IP address and user agent under its own privacy policy.</p>
             </article>
             <article class="privacy-card">
               <span class="privacy-number">05</span>
-              <h3>Disclosure and changes</h3>
-              <p>For data collected automatically by the app, the intended App Store privacy response is “Data Not Collected.” Voluntary support email will also be considered during every release and feature review.</p>
+              <h3>Disclosure reviewed with every release</h3>
+              <p>The intended App Store response for data collected automatically by the app is “Data Not Collected.” Every release and feature review also accounts for any support email a user chooses to send.</p>
             </article>
             <article class="privacy-card">
               <span class="privacy-number">06</span>
-              <h3>Children's information</h3>
-              <p>Bameyasu is a general productivity tool and does not knowingly collect personal information through the app from anyone, including children.</p>
+              <h3>One data policy for every user</h3>
+              <p>As a general productivity tool, Bameyasu applies the same data policy to every user and does not knowingly collect personal information through the app from anyone, including children.</p>
             </article>
             <article class="privacy-card">
               <span class="privacy-number">07</span>
-              <h3>Support communications</h3>
-              <p>If you email <a href="mailto:support@hinoshiba.com">support@hinoshiba.com</a>, the sender address, headers, message, and optional attachments are received through the email provider. They are kept only as long as reasonably needed to reply, provide support, investigate reports, prevent abuse, or meet legal and security obligations. You may request deletion at the same address, subject to those obligations.</p>
+              <h3>Support messages stay in your control</h3>
+              <p>When you choose to email <a href="mailto:support@hinoshiba.com">support@hinoshiba.com</a>, the maintainer receives your sender address, headers, message, and optional attachments through the hinoshiba.com email service provider. That information is used only to reply, provide support, investigate reports, prevent abuse, or meet legal and security obligations, and retained only as long as reasonably necessary for those purposes or obligations. You may request deletion at the same address, subject to those obligations.</p>
             </article>
           </div>
         </div>
@@ -279,18 +280,18 @@
           <div class="section-heading split-heading">
             <div>
               <p class="kicker">Terms and measurement disclaimer</p>
-              <h2>Use it safely,<br>as reference information.</h2>
+              <h2>Important context<br>for confident use.</h2>
             </div>
-            <div><p>Bameyasu provides reference information for reviewing a workspace. Please use it with the following conditions in mind.</p><p class="effective-date">Effective: August 15, 2026</p></div>
+            <div><p>These points explain the role of each result and the safety guidance that helps you use Bameyasu as a practical improvement tool.</p><p class="effective-date">Effective: August 15, 2026</p></div>
           </div>
 
-          <ol class="terms-list">
-            <li><div><strong>It is not a professional instrument or medical service</strong><p>Bameyasu is not a medical device, diagnostic service, treatment, disease-prevention service, calibrated lux meter, calibrated sound-level meter, or statutory workplace measurement instrument.</p></div></li>
-            <li><div><strong>Results are not guarantees</strong><p>Results include estimates and Bameyasu-specific heuristics. They do not guarantee health, safety, comfort, productivity, or legal compliance.</p></div></li>
+          <ol class="terms-list" role="list">
+            <li><div><strong>Purpose and role</strong><p>Bameyasu is a wellness, education, and productivity tool. It is not a medical device, diagnostic service, treatment, disease-prevention service, calibrated lux meter, calibrated sound-level meter, or statutory workplace measurement instrument.</p></div></li>
+            <li><div><strong>How to read each result</strong><p>Use the estimates and Bameyasu-specific heuristics to prioritize practical improvements. They do not guarantee health, safety, comfort, productivity, or legal compliance.</p></div></li>
             <li><div><strong>Values vary with the environment and device</strong><p>Camera and microphone estimates vary by iPhone model, case, microphone path, placement, direction, reflections, light spectrum, wind, handling, ambient sound, and calibration.</p></div></li>
-            <li><div><strong>Do not use it as the sole basis for important decisions</strong><p>Do not use Bameyasu as the sole basis for health, employment, occupational-safety, emergency, or regulatory decisions.</p></div></li>
-            <li><div><strong>When danger is suspected, put safety before the display</strong><p>If symptoms, severe discomfort, hazardous sound, combustion gas, smoke, heat, or another danger is suspected, leave the area regardless of Bameyasu's display and contact an employer, occupational physician, medical provider, emergency service, or qualified measurement professional as appropriate.</p></div></li>
-            <li><div><strong>Public sources do not endorse Bameyasu</strong><p>Linked public sources are independently summarized. Their publishers do not endorse or approve Bameyasu.</p></div></li>
+            <li><div><strong>Decisions that need qualified guidance</strong><p>For health, employment, occupational-safety, emergency, or regulatory decisions, do not rely on Bameyasu alone; use the appropriate qualified guidance or formal measurement.</p></div></li>
+            <li><div><strong>Put safety first</strong><p>If symptoms, severe discomfort, hazardous sound, combustion gas, smoke, heat, or another danger is suspected, leave the area regardless of Bameyasu's display and contact an employer, occupational physician, medical provider, emergency service, or qualified measurement professional as appropriate.</p></div></li>
+            <li><div><strong>Relationship to public sources</strong><p>Each card links directly to the source context. Bameyasu independently organizes the key points; the publishers do not endorse or approve the app.</p></div></li>
           </ol>
           <p class="license-note">The source code license is MIT. Distribution through an app marketplace may also be subject to that marketplace's terms. Open-source component licenses take precedence for their respective components.</p>
         </div>
@@ -300,8 +301,8 @@
         <div class="shell">
           <div class="section-heading">
             <p class="kicker">Evidence sources</p>
-            <h2>Minimal summaries,<br>linked to primary sources.</h2>
-            <p>Bameyasu independently summarizes this information; the organizations do not endorse or approve the app. Original text, figures, and logos are not reproduced. Last checked: August 15, 2026.</p>
+            <h2>Measurement guidance,<br>connected to primary sources.</h2>
+            <p>Bameyasu organizes practical workspace-review points from public primary sources, with every card linking directly to its context. The summaries are independent and do not imply endorsement or reproduce original text, figures, or logos. Last checked: August 15, 2026.</p>
           </div>
 
           <div class="source-grid">
@@ -312,18 +313,18 @@
               <span>Japan · Information-equipment work</span><h3>Ministry of Health, Labour and Welfare guidelines</h3><p>Covers a viewing distance of about 40 cm or more, screen-top position, glare reduction, sessions no longer than one hour, and 10–15 minute work breaks.</p><small>Open official source ↗</small>
             </a>
             <a class="source-card" href="https://www.cdc.gov/niosh/noise/about/noise.html">
-              <span>U.S. · Occupational noise</span><h3>CDC / NIOSH</h3><p>85 dBA as an eight-hour time-weighted average with a 3 dB exchange rate. This is not a focus-room target, and a 15-second reading cannot establish eight-hour exposure.</p><small>Open official source ↗</small>
+              <span>U.S. · Occupational noise</span><h3>CDC / NIOSH</h3><p>For occupational-exposure context, NIOSH uses 85 dBA as an eight-hour time-weighted average with a 3 dB exchange rate. Bameyasu keeps its 15-second value separate as a short-term cue; it cannot establish eight-hour exposure.</p><small>Open official source ↗</small>
             </a>
             <a class="source-card" href="https://www.osha.gov/etools/computer-workstations/components/monitors">
               <span>U.S. · Monitor setup</span><h3>OSHA Computer Workstations</h3><p>A generally preferred viewing distance of 50–100 cm, used as additional context while prioritizing readability and upright posture.</p><small>Open official source ↗</small>
             </a>
             <a class="source-card" href="https://www.mhlw.go.jp/bunya/kenkou/seikatsu-eisei10/index.html">
-              <span>Japan · Building environment</span><h3>Ministry of Health, Labour and Welfare management criteria</h3><p>For covered air-conditioned rooms: 18–28°C, 40–70% relative humidity, CO₂ at or below 1,000 ppm, and CO at or below 6 ppm. Bameyasu does not measure or determine compliance.</p><small>Open official source ↗</small>
+              <span>Japan · Building environment</span><h3>Ministry of Health, Labour and Welfare management criteria</h3><p>For covered air-conditioned rooms: 18–28°C, 40–70% relative humidity, CO₂ at or below 1,000 ppm, and CO at or below 6 ppm. These conditions require appropriate external instruments; Bameyasu does not measure them or determine compliance.</p><small>Open official source ↗</small>
             </a>
           </div>
 
           <details class="api-sources">
-            <summary>Related Apple APIs and review constraints</summary>
+            <summary>Related Apple platform references and review guidance</summary>
             <div>
               <a href="https://developer.apple.com/documentation/avfaudio/avaudiorecorder/averagepower%28forchannel%3A%29">AVAudioRecorder power</a>
               <a href="https://developer.apple.com/documentation/avfoundation/capture-device-exposure">AVFoundation camera exposure</a>
@@ -339,16 +340,16 @@
         <div class="shell support-card">
           <div>
             <p class="kicker light">Support</p>
-            <h2>Connect questions, bugs,<br>and ideas with development.</h2>
-            <p>Questions about using Bameyasu, privacy or security reports, and other inquiries are accepted at support@hinoshiba.com. GitHub Issues may also be used for bug reports and feature requests that are safe to discuss publicly.</p>
+            <h2>Get help—and help<br>shape Bameyasu.</h2>
+            <p>Email support@hinoshiba.com for help, privacy or security reports, or other questions. Use GitHub Issues to share bug reports and feature ideas that are safe to discuss publicly.</p>
             <div class="support-actions">
               <a class="button light-button" href="mailto:support@hinoshiba.com">Email support <span aria-hidden="true">↗</span></a>
               <a class="button outline-light" href="https://github.com/hinoshiba/Bameyasu/issues/new">GitHub Issues <span aria-hidden="true">↗</span></a>
             </div>
           </div>
           <aside>
-            <strong>Do not post confidential information publicly</strong>
-            <p>Report vulnerabilities and privacy leaks to support@hinoshiba.com instead of a public issue. Do not attach real data, images, audio, personal information, credentials, or signing material to the initial email.</p>
+            <strong>Start sensitive reports by email, not a public issue</strong>
+            <p>Send vulnerabilities and privacy leaks to support@hinoshiba.com. To protect your information, leave real data, images, audio, personal information, credentials, and signing material out of the first email; a safer transfer method can be arranged if needed.</p>
           </aside>
         </div>
       </section>
@@ -357,8 +358,8 @@
         <div class="shell open-source-card">
           <div>
             <p class="kicker">Open source</p>
-            <h2>The implementation<br>and its limits are public.</h2>
-            <p>Bameyasu's source code is available under the MIT License. The repository includes measurement logic, tests, and design decisions. Brand assets are not covered by the MIT License.</p>
+            <h2>The method and evidence<br>are open.</h2>
+            <p>Explore Bameyasu's measurement logic, tests, and design decisions under the MIT License. Brand assets are not covered by the MIT License.</p>
           </div>
           <a class="button dark" href="https://github.com/hinoshiba/Bameyasu">View on GitHub <span aria-hidden="true">↗</span></a>
         </div>
