@@ -4,15 +4,21 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#f8f4ec">
-    <meta name="description" content="Bameyasuは、iPhoneで光・音・机の揺れ・姿勢と配置を約60秒で確認し、仕事環境の『まず直す1つ』を提案するオンデバイスアプリです。">
+    <meta name="description" content="Bameyasuは、iPhoneで光・音・机の揺れ・姿勢と配置を約60秒で確認し、『まず直す1つ』を提案するオンデバイスの仕事環境チェックアプリです。">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Bameyasu">
     <meta property="og:title" content="Bameyasu — 場の目安。仕事環境を、測って整える。">
-    <meta property="og:description" content="iPhoneで仕事環境を約60秒で確認。推測で埋めず、まず直す1つを提案します。">
+    <meta property="og:description" content="実際の画面とともに、機能・測定方法・プライバシー・利用条件・サポートを1ページで紹介します。">
     <meta property="og:url" content="https://bameyasu.hinoshiba.com/">
     <meta property="og:image" content="https://bameyasu.hinoshiba.com/assets/app-icon.png">
+    <meta property="og:image:width" content="1024">
+    <meta property="og:image:height" content="1024">
+    <meta property="og:image:alt" content="Bameyasu app icon">
     <meta name="twitter:card" content="summary">
     <link rel="canonical" href="https://bameyasu.hinoshiba.com/">
+    <link rel="alternate" hreflang="ja" href="https://bameyasu.hinoshiba.com/">
+    <link rel="alternate" hreflang="en" href="https://bameyasu.hinoshiba.com/en/">
+    <link rel="alternate" hreflang="x-default" href="https://bameyasu.hinoshiba.com/">
     <link rel="icon" href="assets/app-icon.png">
     <link rel="apple-touch-icon" href="assets/app-icon.png">
     <link rel="stylesheet" href="styles.css">
@@ -23,14 +29,17 @@
 
     <header class="site-header">
       <div class="shell nav-wrap">
-        <a class="brand" href="#top" aria-label="Bameyasu ホーム">
-          <img src="assets/app-icon.png" width="44" height="44" alt="">
+        <a class="brand" href="#top" aria-label="Bameyasu トップ">
+          <img src="assets/app-icon.png" width="42" height="42" alt="">
           <span>Bameyasu</span>
         </a>
-        <nav aria-label="メインナビゲーション">
-          <a href="#features">できること</a>
-          <a href="#principles">測定の姿勢</a>
-          <a class="nav-cta" href="https://github.com/hinoshiba/Bameyasu">GitHub</a>
+        <nav class="main-nav" aria-label="メインナビゲーション">
+          <a href="#screens">実画面</a>
+          <a href="#features">機能</a>
+          <a href="#method">測定方針</a>
+          <a href="#privacy">プライバシー</a>
+          <a href="#support">サポート</a>
+          <a class="language-link" href="en/" lang="en" hreflang="en">English</a>
         </nav>
       </div>
     </header>
@@ -39,159 +48,300 @@
       <section class="hero" id="top">
         <div class="shell hero-grid">
           <div class="hero-copy">
-            <p class="eyebrow"><span></span> iPhoneで約60秒の仕事場チェック</p>
-            <h1>場の目安。<br>仕事環境を、<br><em>測って整える。</em></h1>
-            <p class="lead">光、音、机の揺れ、姿勢と配置を順に確認。Bameyasuは、いちばん取り組みやすい「まず直す1つ」を提案します。</p>
-            <p class="english">A practical reference for a better workspace.</p>
+            <p class="eyebrow"><span aria-hidden="true"></span> iPhoneで約60秒</p>
+            <h1>仕事場を測って、<br><em>まず1つ整える。</em></h1>
+            <p class="lead">Bameyasuは、iPhoneで光、音、机の揺れ、姿勢と配置を確認し、取り組みやすい「まず直す1つ」を提案するオンデバイスのSwiftUIアプリです。</p>
             <div class="hero-actions">
-              <a class="button primary" href="https://github.com/hinoshiba/Bameyasu">
-                ソースを見る <span aria-hidden="true">↗</span>
-              </a>
-              <a class="button secondary" href="https://github.com/hinoshiba/Bameyasu/blob/main/METHODOLOGY.md">測定の考え方</a>
+              <a class="button primary" href="#screens">実際の画面を見る <span aria-hidden="true">↓</span></a>
+              <a class="button secondary" href="https://github.com/hinoshiba/Bameyasu">GitHub <span aria-hidden="true">↗</span></a>
             </div>
             <ul class="quick-facts" aria-label="対応情報">
               <li>iOS 17+</li>
+              <li>iPhone</li>
+              <li>日本語・English</li>
               <li>オンデバイス</li>
-              <li>日本語 / English</li>
             </ul>
+            <p class="prototype-note"><strong>開発版 v0.1.0</strong> — ウェルネス・教育・生産性向けのエンジニアリングプロトタイプです。医療機器、校正済み照度計・騒音計、法定作業環境測定器ではありません。</p>
           </div>
 
-          <div class="product-visual" role="img" aria-label="Bameyasuの画面イメージ。仕事場を確認し、スコアと『まず直す1つ』を表示します。">
-            <div class="glow glow-one"></div>
-            <div class="glow glow-two"></div>
-            <div class="phone">
-              <div class="phone-screen">
-                <div class="phone-top">
-                  <div>
-                    <strong>Bameyasu</strong>
-                    <small>今日の仕事場</small>
-                  </div>
-                  <img src="assets/app-icon.png" width="48" height="48" alt="">
-                </div>
-                <div class="score-card">
-                  <div class="score-ring"><span>78</span><small>/ 100</small></div>
-                  <div>
-                    <small>CHECK COMPLETE</small>
-                    <strong>少し整えると、<br>もっと働きやすく</strong>
-                  </div>
-                </div>
-                <div class="priority-card">
-                  <small>まず直す1つ</small>
-                  <strong>画面への映り込みを減らす</strong>
-                  <span>机か照明の向きを少し調整してみましょう。</span>
-                </div>
-                <div class="metric-row" aria-hidden="true">
-                  <span><i class="sun"></i> 光</span>
-                  <span><i class="sound"></i> 音</span>
-                  <span><i class="desk"></i> 机</span>
-                  <span><i class="person"></i> 姿勢</span>
-                </div>
-              </div>
+          <figure class="hero-device">
+            <div class="device-halo" aria-hidden="true"></div>
+            <div class="device-frame">
+              <img src="assets/screenshots/ja-home.webp" width="736" height="1600" alt="Bameyasuのホーム画面。環境の整い度81点と、まず直す1つとして『光を均一にする』を表示している。" fetchpriority="high">
             </div>
-            <p class="visual-note">画面は機能を示すイメージです</p>
+            <figcaption>実際のアプリ画面・サンプルデータ</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section screens-section" id="screens">
+        <div class="shell">
+          <div class="section-heading split-heading">
+            <div>
+              <p class="kicker">実際の画面</p>
+              <h2 id="screens-title">測るところから、<br>振り返るところまで。</h2>
+            </div>
+            <p>アプリが案内する順序と、結果の使い方が分かる5場面です。表示値と履歴は説明用のサンプルで、実際の結果は端末や環境によって変わります。</p>
+          </div>
+
+          <div class="screen-gallery" role="region" aria-labelledby="screens-title">
+            <figure class="screen-card featured-screen">
+              <div class="screen-image"><img src="assets/screenshots/ja-home.webp" width="736" height="1600" alt="ホーム画面。環境の整い度、最新チェック、まず直す1つ、60秒チェックとフォーカスタイマーを表示。" loading="lazy"></div>
+              <figcaption><span>01</span><div><strong>結果をひと目で</strong><p>環境の整い度と「まず直す1つ」をホームに集約します。</p></div></figcaption>
+            </figure>
+            <figure class="screen-card">
+              <div class="screen-image"><img src="assets/screenshots/ja-light.webp" width="736" height="1600" alt="光環境のチェック画面。白い紙を作業面に置き、背面カメラを向ける手順を案内。" loading="lazy"></div>
+              <figcaption><span>02</span><div><strong>光を10秒で確認</strong><p>置き方とカメラの向きを、測る直前に具体的に案内します。</p></div></figcaption>
+            </figure>
+            <figure class="screen-card">
+              <div class="screen-image"><img src="assets/screenshots/ja-ergonomics.webp" width="736" height="1600" alt="姿勢と配置の確認画面。画面距離、高さ、肩と肘、背中と腰など7項目を選択する。" loading="lazy"></div>
+              <figcaption><span>03</span><div><strong>姿勢と配置を自己確認</strong><p>画面、椅子、入力機器、休止の7項目を今の状態で見直します。</p></div></figcaption>
+            </figure>
+            <figure class="screen-card">
+              <div class="screen-image"><img src="assets/screenshots/ja-history.webp" width="736" height="1600" alt="記録画面。環境の整い度が48点から81点へ改善する折れ線グラフと、過去5回の履歴を表示。" loading="lazy"></div>
+              <figcaption><span>04</span><div><strong>変化を振り返る</strong><p>直近14回の整い度と各チェックを比べ、改善前後を確認できます。</p></div></figcaption>
+            </figure>
+            <figure class="screen-card">
+              <div class="screen-image"><img src="assets/screenshots/ja-guide.webp" width="736" height="1600" alt="ガイド画面。測定方法、環境の整い度の計算、外部センサーが必要な項目を説明。" loading="lazy"></div>
+              <figcaption><span>05</span><div><strong>限界まで分かる</strong><p>測れるもの、測れないもの、計算方法と根拠をアプリ内で確認できます。</p></div></figcaption>
+            </figure>
           </div>
         </div>
       </section>
 
-      <section class="section" id="features">
+      <section class="section features-section" id="features">
         <div class="shell">
           <div class="section-heading">
             <p class="kicker">4つの視点</p>
             <h2>いつもの席を、<br>順番に見る。</h2>
-            <p>専用機器を持ち歩かなくても、改善のきっかけを見つけられるように。iPhoneで確認できる範囲を、わかりやすく整理します。</p>
+            <p>センサーの値と自己確認を混同せず、それぞれの確かさを明示します。画像・音声・生のセンサーデータは保存しません。</p>
           </div>
+
           <div class="feature-grid">
             <article class="feature-card orange">
-              <span class="feature-number">01</span>
+              <span class="feature-number">01 · 10秒</span>
               <div class="feature-icon" aria-hidden="true">☀</div>
-              <h3>光</h3>
-              <p>カメラの露出情報と相対輝度から、作業面の明るさと明暗差を推定します。</p>
-              <small>推定値として明示</small>
+              <h3>光環境</h3>
+              <p>背面ワイドカメラのISO・露出時間・絞り値と、画面内9領域の相対輝度から作業面の照度と明暗差を推定します。</p>
+              <small>300 lxは一般的な事務作業の参照値。適合測定ではありません。</small>
             </article>
             <article class="feature-card blue">
-              <span class="feature-number">02</span>
+              <span class="feature-number">02 · 15秒</span>
               <div class="feature-icon waveform" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-              <h3>音</h3>
-              <p>マイク入力へA特性処理を行い、周囲の音量をリアルタイムで確認します。</p>
-              <small>校正前は参考 dB*</small>
+              <h3>音環境</h3>
+              <p>48 kHzの入力を優先し、実入力が48 kHz付近ならA特性処理を適用して、等価レベルを端末内で推定します。音声認識はせず、音声ファイルも作りません。</p>
+              <small>比較校正前は「参考 dB*」で、整い度には含めません。</small>
             </article>
             <article class="feature-card green">
-              <span class="feature-number">03</span>
+              <span class="feature-number">03 · 8秒</span>
               <div class="feature-icon" aria-hidden="true">◎</div>
-              <h3>机</h3>
-              <p>Core Motionを使って、タイピング時などの机の揺れと傾きを確認します。</p>
-              <small>端末内で解析</small>
+              <h3>机の安定性</h3>
+              <p>Core Motionを30 Hzで使い、加速度RMSと傾きを独自の目安で確認します。揺れる機器や机の見直しに使います。</p>
+              <small>健康・安全・構造評価ではなく、整い度から除外します。</small>
             </article>
             <article class="feature-card yellow">
-              <span class="feature-number">04</span>
+              <span class="feature-number">04 · 自己確認</span>
               <div class="feature-icon" aria-hidden="true">⌁</div>
               <h3>姿勢と配置</h3>
-              <p>一次情報に基づく質問から、画面・椅子・入力機器の配置を見直します。</p>
-              <small>診断ではなく改善ガイド</small>
+              <p>画面距離と高さ、肩・肘、背中・腰、足裏、グレア、作業の区切りを7項目で確認します。</p>
+              <small>未チェックは「悪い」ではなく「未確認」です。</small>
             </article>
+          </div>
+
+          <div class="capability-strip">
+            <div><strong>50 + 10分</strong><span>フォーカスタイマーと作業休止ガイド</span></div>
+            <div><strong>最新14回</strong><span>整い度の変化チャート・履歴は最大100件</span></div>
+            <div><strong>アクセシブル</strong><span>Dynamic Type・VoiceOver・Reduce Motion</span></div>
+            <div><strong>日 / 英</strong><span>端末の優先言語に合わせて表示</span></div>
           </div>
         </div>
       </section>
 
-      <section class="section steps-section">
-        <div class="shell steps-grid">
+      <section class="section how-section" id="how-it-works">
+        <div class="shell how-grid">
           <div class="section-heading compact">
             <p class="kicker">使い方</p>
-            <h2>ひと息で終わる、<br>3つのステップ。</h2>
-            <p>必要な権限は、必要な工程でだけ確認します。</p>
+            <h2>約60秒、<br>3つのステップ。</h2>
+            <p>許可しない測定があってもスキップして続けられます。権限は必要な工程でだけ確認します。</p>
           </div>
           <ol class="steps">
-            <li>
-              <span>1</span>
-              <div><h3>いつもの席で始める</h3><p>普段仕事をする状態にiPhoneを置きます。</p></div>
-            </li>
-            <li>
-              <span>2</span>
-              <div><h3>案内に沿って確認</h3><p>光、音、机、姿勢を約60秒で順にチェックします。</p></div>
-            </li>
-            <li>
-              <span>3</span>
-              <div><h3>まず1つだけ整える</h3><p>優先度の高い提案から、無理なく環境を変えます。</p></div>
-            </li>
+            <li><span>1</span><div><h3>いつもの席で始める</h3><p>普段仕事をする状態にiPhoneを置きます。</p></div></li>
+            <li><span>2</span><div><h3>案内どおりに確認</h3><p>光、音、机、姿勢と配置を順にチェックします。</p></div></li>
+            <li><span>3</span><div><h3>まず1つだけ整える</h3><p>優先度の高い提案から試し、次の記録と比べます。</p></div></li>
           </ol>
         </div>
       </section>
 
-      <section class="section principles-section" id="principles">
-        <div class="shell principle-card">
-          <div class="principle-copy">
-            <p class="kicker light">測定の誠実さ</p>
-            <h2>測れないものを、<br>推測で埋めない。</h2>
-            <p>iPhone単体では信頼できる値を取得できない項目があります。Bameyasuは、できることとできないことを区別し、専門機器のようには見せません。</p>
-            <a href="https://github.com/hinoshiba/Bameyasu/blob/main/METHODOLOGY.md">計算・閾値・限界を読む <span aria-hidden="true">→</span></a>
+      <section class="section method-section" id="method">
+        <div class="shell">
+          <div class="method-intro">
+            <div class="section-heading compact">
+              <p class="kicker light">測定方針</p>
+              <h2>測れないものを、<br>推測で埋めない。</h2>
+              <p>環境の整い度 v0.1.0は、改善の順番を考えるためのBameyasu独自の目安です。公的な指数や健康・安全スコアではありません。</p>
+            </div>
+            <div class="score-panel" role="group" aria-label="環境の整い度の重み">
+              <div class="score-weight light-weight"><span>60%</span><strong>推定照度</strong></div>
+              <div class="score-weight ergo-weight"><span>40%</span><strong>姿勢と配置</strong></div>
+              <p><strong>比較校正済みの音のみ +35%</strong><br>利用できる重みを100へ正規化。光と姿勢・配置が両方なければ整い度は表示しません。</p>
+            </div>
           </div>
-          <div class="boundary-panel">
-            <p>iPhoneだけでは測らない項目</p>
-            <ul>
-              <li>温度</li><li>湿度</li><li>CO₂</li><li>CO</li>
-              <li>PM2.5</li><li>VOC</li><li>気流</li><li>UV</li>
+
+          <div class="method-grid">
+            <article>
+              <span class="method-label">含める</span>
+              <h3>確かさを区別して計算</h3>
+              <p>推定照度60%、姿勢と配置40%。音は利用者が基準器との比較校正を確認した場合だけ加えます。取得できない値は利用可能な項目から外します。</p>
+            </article>
+            <article>
+              <span class="method-label">含めない</span>
+              <h3>別の意味を持つ値</h3>
+              <p>机の揺れ、未校正の音、取得できない値は整い度へ入れません。15秒の音量は8時間の時間加重平均を示さず、比較校正後も法定測定器にはなりません。</p>
+            </article>
+            <article>
+              <span class="method-label">保証しない</span>
+              <h3>判断の代わりにしない</h3>
+              <p>高い整い度は、確認できた項目が現在のガイド内だったことだけを示します。健康、安全、快適性、生産性、法令適合を保証しません。</p>
+            </article>
+          </div>
+
+          <div class="not-measured">
+            <div>
+              <p class="kicker light">iPhone単体では測定しないもの</p>
+              <h3>適切な外部測定器が必要です。</h3>
+            </div>
+            <ul aria-label="Bameyasuが測定しない項目">
+              <li>温度</li><li>湿度</li><li>CO₂</li><li>CO</li><li>PM2.5</li><li>VOC</li><li>ホルムアルデヒド</li><li>気流</li><li>UV</li><li>電磁界安全</li><li>空気質</li>
             </ul>
-            <p class="boundary-note"><span aria-hidden="true">✓</span> 取得できない値は総合値に入れません</p>
+          </div>
+
+          <p class="validation-note"><strong>検証状況：</strong> v0.1.0はエンジニアリングプロトタイプです。カメラ照度と参考音量は、トレーサブルな基準器を使った複数機種での検証研究をまだ完了していません。</p>
+        </div>
+      </section>
+
+      <section class="section privacy-section" id="privacy">
+        <div class="shell">
+          <div class="section-heading split-heading">
+            <div>
+              <p class="kicker">プライバシー</p>
+              <h2>仕事場のデータは、<br>仕事場から出さない。</h2>
+            </div>
+            <div><p>Bameyasuはアプリからデータを収集しません。アカウント、広告、分析SDK、クラッシュ収集SDK、クラウド同期はありません。</p><p class="effective-date">発効日：2026年8月15日</p></div>
+          </div>
+
+          <div class="privacy-grid">
+            <article class="privacy-card privacy-lead-card">
+              <div class="privacy-mark" aria-hidden="true"><span>ON</span><strong>DEVICE</strong></div>
+              <h3>センサー入力は、その場で処理</h3>
+              <p>カメラ、マイク、モーション入力は対応するチェック中だけ端末上でリアルタイム処理します。画像、映像、音声、生のセンサーデータを保存または送信せず、音声認識も行いません。</p>
+            </article>
+            <article class="privacy-card">
+              <span class="privacy-number">01</span>
+              <h3>端末内に保存する情報</h3>
+              <p>完了したチェックの日時、計算済み指標、チェック回答、提案、評価アルゴリズム版と設定をアプリのサンドボックスに保存します。</p>
+            </article>
+            <article class="privacy-card">
+              <span class="privacy-number">02</span>
+              <h3>保存しない情報</h3>
+              <p>画像、音声、生のフレームやサンプル、連絡先、位置情報、識別子、広告データは履歴に含みません。</p>
+            </article>
+            <article class="privacy-card">
+              <span class="privacy-number">03</span>
+              <h3>削除と権限</h3>
+              <p>履歴は個別に削除できます。アプリを削除するとサンドボックス内のデータも削除され、権限はiPhoneの設定からいつでも撤回できます。</p>
+            </article>
+            <article class="privacy-card">
+              <span class="privacy-number">04</span>
+              <h3>外部リンク</h3>
+              <p>アプリ自身はサーバーへ通信しません。外部リンクを開くと、遷移先へIPアドレスやUser-Agent等の通常のアクセス情報が送られ、そのポリシーが適用されます。</p>
+            </article>
+            <article class="privacy-card">
+              <span class="privacy-number">05</span>
+              <h3>申告と変更</h3>
+              <p>現在の機能に対するApp Store申告予定は「データを収集しない」です。機能追加時と各リリース前に再確認し、方針変更時は発効日を更新します。</p>
+            </article>
+            <article class="privacy-card">
+              <span class="privacy-number">06</span>
+              <h3>子どもの情報</h3>
+              <p>一般的な生産性向けツールであり、子どもを含む利用者から個人情報を意図的に収集しません。</p>
+            </article>
           </div>
         </div>
       </section>
 
-      <section class="section privacy-section">
-        <div class="shell privacy-grid">
-          <div class="privacy-seal" aria-hidden="true">
-            <span>ON</span>
-            <strong>DEVICE</strong>
-            <small>ONLY</small>
-          </div>
-          <div class="privacy-copy">
-            <p class="kicker">プライバシー</p>
-            <h2>仕事場のデータは、<br>仕事場から出さない。</h2>
-            <p>画像、映像、音声、生のセンサーデータは保存・送信しません。評価に必要な処理は端末内で行います。</p>
-            <div class="text-links">
-              <a href="https://github.com/hinoshiba/Bameyasu/blob/main/PRIVACY.md">プライバシーポリシー</a>
-              <a href="https://github.com/hinoshiba/Bameyasu/blob/main/SECURITY.md">セキュリティ</a>
+      <section class="section terms-section" id="terms">
+        <div class="shell">
+          <div class="section-heading split-heading">
+            <div>
+              <p class="kicker">利用上の注意</p>
+              <h2>参考情報として、<br>安全に使うために。</h2>
             </div>
+            <div><p>Bameyasuは仕事環境を見直すための参考情報を提供します。次の条件を理解したうえで利用してください。</p><p class="effective-date">発効日：2026年8月15日</p></div>
           </div>
+
+          <ol class="terms-list">
+            <li><div><strong>専門機器・医療サービスではありません</strong><p>医療機器、診断、治療、疾病予防サービス、校正済み照度計・騒音計、法定作業環境測定器ではありません。</p></div></li>
+            <li><div><strong>結果は保証ではありません</strong><p>推定値とBameyasu独自の目安を含み、健康、安全、快適性、生産性、法令適合を保証しません。</p></div></li>
+            <li><div><strong>環境と端末で値が変わります</strong><p>カメラ・マイクの推定値は、iPhone機種、ケース、マイク経路、設置、向き、反射、光源の分光特性、風、操作、周囲音、校正状態で変化します。</p></div></li>
+            <li><div><strong>重要な判断の唯一の根拠にしないでください</strong><p>健康、雇用、労働安全衛生、緊急対応、規制上の判断をBameyasuだけに基づいて行わないでください。</p></div></li>
+            <li><div><strong>危険が疑われるときは表示より安全を優先</strong><p>症状、強い不快感、危険な音、燃焼ガス、煙、高温その他の危険が疑われる場合は、その場を離れ、状況に応じて事業者、産業医、医療機関、緊急窓口または有資格の測定専門家へ相談してください。</p></div></li>
+            <li><div><strong>公的機関による推奨ではありません</strong><p>リンク先の公的情報はBameyasuが独自に要約したもので、発行機関によるBameyasuの推奨・承認を意味しません。</p></div></li>
+          </ol>
+          <p class="license-note">ソースコードにはMIT Licenseが適用されます。アプリストアからの配布には当該ストアの条件も適用される場合があります。第三者OSSが追加された場合は各コンポーネントのライセンスが優先します。</p>
+        </div>
+      </section>
+
+      <section class="section sources-section" id="sources">
+        <div class="shell">
+          <div class="section-heading">
+            <p class="kicker">根拠となる情報源</p>
+            <h2>原典へたどれる、<br>必要最小限の要約。</h2>
+            <p>Bameyasuが独自に要約した情報で、各機関による推奨・承認ではありません。原文・図表・ロゴは転載していません。最終確認：2026年8月15日。</p>
+          </div>
+
+          <div class="source-grid">
+            <a class="source-card" href="https://laws.e-gov.go.jp/law/347M50002000043">
+              <span>日本 · 照明</span><h3>e-Gov 事務所衛生基準規則 第10条</h3><p>一般的な事務作業の作業面は300 lx以上。著しい明暗差とまぶしさも避けます。</p><small>公式情報を開く ↗</small>
+            </a>
+            <a class="source-card" href="https://www.mhlw.go.jp/web/t_doc?dataId=00tc6314&amp;dataType=1">
+              <span>日本 · 情報機器作業</span><h3>厚生労働省 ガイドライン</h3><p>約40 cm以上の視距離、画面上端、グレア低減、1時間以内の区切りと10〜15分の作業休止。</p><small>公式情報を開く ↗</small>
+            </a>
+            <a class="source-card" href="https://www.cdc.gov/niosh/noise/about/noise.html">
+              <span>U.S. · Occupational noise</span><h3>CDC / NIOSH</h3><p>85 dBAの8時間時間加重平均と3 dB交換率。集中用基準ではなく、15秒測定で8時間ばく露は判定できません。</p><small>公式情報を開く ↗</small>
+            </a>
+            <a class="source-card" href="https://www.osha.gov/etools/computer-workstations/components/monitors">
+              <span>U.S. · Monitor setup</span><h3>OSHA Computer Workstations</h3><p>一般的な視距離50〜100 cm。読みやすさと直立姿勢を優先する追加文脈として参照します。</p><small>公式情報を開く ↗</small>
+            </a>
+            <a class="source-card" href="https://www.mhlw.go.jp/bunya/kenkou/seikatsu-eisei10/index.html">
+              <span>日本 · 建築物環境</span><h3>厚生労働省 管理基準</h3><p>対象空調居室の温度18〜28°C、湿度40〜70%、CO₂ 1000 ppm以下、CO 6 ppm以下。Bameyasuは測定・合否判定しません。</p><small>公式情報を開く ↗</small>
+            </a>
+          </div>
+
+          <details class="api-sources">
+            <summary>関連するApple APIとレビュー上の制約</summary>
+            <div>
+              <a href="https://developer.apple.com/documentation/avfaudio/avaudiorecorder/averagepower%28forchannel%3A%29">AVAudioRecorder power</a>
+              <a href="https://developer.apple.com/documentation/avfoundation/capture-device-exposure">AVFoundation camera exposure</a>
+              <a href="https://developer.apple.com/documentation/coremotion/cmmotionmanager">Core Motion</a>
+              <a href="https://developer.apple.com/documentation/SensorKit/configuring-your-project-for-sensor-reading">SensorKit access</a>
+              <a href="https://developer.apple.com/app-store/review/guidelines/">App Review Guidelines</a>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="section support-section" id="support">
+        <div class="shell support-card">
+          <div>
+            <p class="kicker light">サポート</p>
+            <h2>質問・不具合・提案を、<br>開発へつなげる。</h2>
+            <p>使い方の質問、不具合報告、機能提案はGitHub Issuesで受け付けています。投稿前に既存Issueをご確認ください。GitHubへのログインが必要です。</p>
+            <a class="button light-button" href="https://github.com/hinoshiba/Bameyasu/issues/new">新しいIssueを作成 <span aria-hidden="true">↗</span></a>
+          </div>
+          <aside>
+            <strong>機密情報は公開しないでください</strong>
+            <p>脆弱性やプライバシー漏えいに関する内容、実データ、画像、音声、資格情報は公開Issueへ投稿しないでください。非公開の報告窓口は準備中です。窓口の案内が公開されるまで、機密情報を共有しないでください。</p>
+          </aside>
         </div>
       </section>
 
@@ -200,16 +350,9 @@
           <div>
             <p class="kicker">Open source</p>
             <h2>仕組みも、限界も、公開しています。</h2>
-            <p>BameyasuのソースコードはMIT Licenseで公開中です。測定根拠、設計、プライバシー方針までリポジトリで確認できます。</p>
+            <p>BameyasuのソースコードはMIT Licenseで公開中です。測定ロジック、テスト、設計判断をリポジトリで確認できます。ブランド資産はMIT Licenseの対象外です。</p>
           </div>
           <a class="button dark" href="https://github.com/hinoshiba/Bameyasu">GitHubで見る <span aria-hidden="true">↗</span></a>
-        </div>
-      </section>
-
-      <section class="english-summary" lang="en">
-        <div class="shell">
-          <strong>Bameyasu</strong>
-          <p>An on-device SwiftUI app that helps you review light, sound, desk vibration, and ergonomics in about 60 seconds. It is a wellness and educational tool—not a medical device, calibrated instrument, or compliance meter.</p>
         </div>
       </section>
     </main>
@@ -217,16 +360,17 @@
     <footer>
       <div class="shell footer-grid">
         <div class="footer-brand">
-          <img src="assets/app-icon.png" width="36" height="36" alt="">
+          <img src="assets/app-icon.png" width="38" height="38" alt="">
           <div><strong>Bameyasu</strong><small>場の目安。仕事環境を、測って整える。</small></div>
         </div>
-        <nav aria-label="関連情報">
-          <a href="https://github.com/hinoshiba/Bameyasu/blob/main/PRIVACY.md">Privacy</a>
-          <a href="https://github.com/hinoshiba/Bameyasu/blob/main/TERMS.md">Terms</a>
-          <a href="https://github.com/hinoshiba/Bameyasu/blob/main/SOURCES.md">Sources</a>
-          <a href="https://github.com/hinoshiba/Bameyasu">GitHub</a>
+        <nav aria-label="このページの案内">
+          <a href="#privacy">プライバシー</a>
+          <a href="#terms">利用上の注意</a>
+          <a href="#sources">情報源</a>
+          <a href="#support">サポート</a>
+          <a href="en/" lang="en" hreflang="en">English</a>
         </nav>
-        <p class="copyright">© 2026 Bameyasu contributors. MIT License.</p>
+        <p class="copyright">© 2026 hinoshiba. Source code: MIT License.</p>
       </div>
     </footer>
   </body>
