@@ -38,7 +38,7 @@ After the first build, create or edit the release workflow in Xcode or App Store
 
 The custom pre-Xcodebuild script rejects an Archive unless its platform, scheme, bundle ID, and Team match this product, `CI_TAG` is exactly `vX.Y.Z`, the tag version matches both `project.yml` and the checked-in project, and `CI_BUILD_NUMBER` is a positive integer. It then applies `CI_BUILD_NUMBER` as `CURRENT_PROJECT_VERSION` in the temporary checkout.
 
-In App Store Connect, open Xcode Cloud > Settings > Build Number and set **Next Build Number** above the highest build already uploaded for the current version. The repository currently records build `1`, so use at least `2` unless App Store Connect already contains a higher build.
+In App Store Connect, open Xcode Cloud > Settings > Build Number and set **Next Build Number** at or above `CURRENT_PROJECT_VERSION` in `project.yml`, and above the highest build already uploaded for the current marketing version.
 
 ## Protect release authority
 

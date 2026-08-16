@@ -390,6 +390,12 @@ grep -Fq 'DispatchQueue(label: "com.hinoshiba.bameyasu.camera.session")' Bameyas
 grep -Fq 'DispatchQueue(label: "com.hinoshiba.bameyasu.camera.samples"' Bameyasu/Services/LightMeter.swift
 grep -Fq 'queue.name = "com.hinoshiba.bameyasu.motion"' Bameyasu/Services/MotionMeter.swift
 grep -q 'https://github.com/hinoshiba/Bameyasu' Bameyasu/Views/SettingsView.swift
+grep -Fq 'object(forInfoDictionaryKey: "CFBundleShortVersionString")' Bameyasu/Views/SettingsView.swift
+grep -Fq 'object(forInfoDictionaryKey: "CFBundleVersion")' Bameyasu/Views/SettingsView.swift
+if rg -n 'Text\("[0-9]+\.[0-9]+\.[0-9]+ \([0-9]+\)"\)' Bameyasu/Views/SettingsView.swift; then
+  echo "error: Settings must display the bundle version/build instead of a fallback release number" >&2
+  exit 1
+fi
 test -x ci_scripts/ci_pre_xcodebuild.sh
 
 if find . -maxdepth 3 -type f \( -name Package.resolved -o -name Podfile.lock -o -name Cartfile.resolved \) | grep -q .; then

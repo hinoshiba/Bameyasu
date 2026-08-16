@@ -71,7 +71,7 @@ struct SettingsView: View {
                     HStack {
                         Text("Bameyasu")
                         Spacer()
-                        Text("0.1.0 (1)")
+                        Text(versionDisplay)
                             .foregroundStyle(.secondary)
                     }
                 } footer: {
@@ -86,6 +86,18 @@ struct SettingsView: View {
                 }
             }
         }
+    }
+
+    private var versionDisplay: String {
+        guard
+            let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String,
+            !version.isEmpty,
+            let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String,
+            !build.isEmpty
+        else {
+            return "—"
+        }
+        return "\(version) (\(build))"
     }
 }
 
