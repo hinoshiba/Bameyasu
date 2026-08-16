@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bameyasu.hinoshiba.com/sitemap.xml
