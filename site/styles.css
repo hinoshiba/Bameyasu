@@ -744,6 +744,7 @@ summary:focus-visible {
 
 .privacy-card h3 { margin-bottom: 10px; font-size: 1.04rem; }
 .privacy-card p { margin: 0; color: var(--muted); font-size: 0.79rem; line-height: 1.8; }
+.privacy-card a { color: var(--ember-dark); font-weight: 800; }
 .privacy-lead-card p { color: #d9d2ca; }
 
 .terms-section { background: var(--card); }
@@ -871,7 +872,20 @@ summary:focus-visible {
 
 .support-card > div > p:not(.kicker) { color: #fff1e9; }
 .support-card .kicker.light { color: #fff; }
-.support-card .button { margin-top: 12px; }
+.support-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.support-card .button { margin-top: 0; }
+.button.outline-light {
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  color: #fff;
+  background: rgba(71, 24, 6, 0.12);
+}
+.button.outline-light:hover { background: rgba(71, 24, 6, 0.25); }
 .support-section a:focus-visible { outline-color: #fff; }
 
 .support-card aside {
@@ -1006,6 +1020,7 @@ footer nav { justify-content: center; }
   .source-card { min-height: 0; }
   .api-sources > div { flex-direction: column; }
   .support-card { gap: 35px; }
+  .support-actions .button { width: 100%; }
   .open-source-card { padding: 28px; }
   footer nav { gap: 14px 20px; }
 }

@@ -45,6 +45,10 @@ struct SettingsView: View {
                     NavigationLink(L10n.text("オープンソースライセンス", "Open-source licenses")) {
                         LegalTextView(kind: .licenses)
                     }
+                    Link(
+                        L10n.text("サポートへ連絡", "Contact support"),
+                        destination: URL(string: "mailto:support@hinoshiba.com")!
+                    )
                     Link(L10n.text("ソースコード", "Source code"), destination: URL(string: "https://github.com/hinoshiba/Bameyasu")!)
                 }
 
@@ -117,8 +121,8 @@ private struct LegalTextView: View {
         switch kind {
         case .privacy:
             L10n.text(
-                "Bameyasuはアカウント、広告、分析SDK、クラウド送信を使用しません。カメラ・マイク・モーション入力は測定中だけ端末上でリアルタイム処理し、画像・映像・音声・生のセンサーデータを保存または送信しません。結果と設定は端末内だけに保存され、記録画面から削除できます。ガイド内の外部リンクを開くと、遷移先の通常のアクセス情報が相手先へ送られます。詳細は配布リポジトリのPRIVACY.mdをご覧ください。",
-                "Bameyasu uses no accounts, ads, analytics SDKs, or cloud transmission. Camera, microphone, and motion input are processed live on device only during a check; images, video, audio, and raw sensor data are not saved or transmitted. Results and settings stay on device and history can be deleted. Opening an external guide link sends ordinary access information to that destination. See PRIVACY.md in the source repository for details."
+                "Bameyasuはアカウント、広告、分析SDK、クラウド送信を使用しません。カメラ・マイク・モーション入力は測定中だけ端末上でリアルタイム処理し、画像・映像・音声・生のセンサーデータを保存または送信しません。結果と設定は端末内だけに保存され、記録画面から削除できます。ガイド内の外部リンクを開くと、遷移先の通常のアクセス情報が相手先へ送られます。support@hinoshiba.comへメールを送ると、送信内容は返信・サポート・調査のためメール事業者を通じて受領され、その目的または法的・セキュリティ上の義務に合理的に必要な期間だけ保持されます。これらの義務に反しない範囲で、同じ宛先へ削除を依頼できます。詳細は配布リポジトリのPRIVACY.mdをご覧ください。",
+                "Bameyasu uses no accounts, ads, analytics SDKs, or cloud transmission. Camera, microphone, and motion input are processed live on device only during a check; images, video, audio, and raw sensor data are not saved or transmitted. Results and settings stay on device and history can be deleted. Opening an external guide link sends ordinary access information to that destination. Email sent to support@hinoshiba.com is received through the email provider for replies, support, and investigation, and retained only as long as reasonably necessary for those purposes or legal and security obligations. You may request deletion at the same address, subject to those obligations. See PRIVACY.md in the source repository for details."
             )
         case .terms:
             L10n.text(

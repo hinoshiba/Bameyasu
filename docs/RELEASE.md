@@ -17,7 +17,7 @@ This follows the useful operating principles in [Youyaku](https://github.com/hin
 4. Set the primary category to Productivity. Avoid medical, diagnostic, safety-guarantee, and compliance claims.
 5. Execute the Paid Apps Agreement and configure banking/tax details if sold.
 6. Decide EU DSA trader status and provide the required verified contact details.
-7. Host `PRIVACY.md`, support, and terms over HTTPS; replace the repository-only contact placeholder.
+7. Confirm that the HTTPS privacy, support, and terms pages resolve and that `support@hinoshiba.com` is monitored.
 8. Configure App Store privacy as Data Not Collected only after comparing the submitted binary to `PRIVACY.md`.
 
 ## Version

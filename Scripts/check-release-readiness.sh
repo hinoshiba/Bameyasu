@@ -25,11 +25,28 @@ done
 plutil -lint Bameyasu/Resources/PrivacyInfo.xcprivacy >/dev/null
 plutil -lint Bameyasu/Resources/Info.plist >/dev/null
 
-if rg -n 'contact-placeholder|CHANGEME|YOUR_EMAIL|TODO: release' \
-  PRIVACY.md TERMS.md docs Bameyasu; then
+if rg -n 'contact-placeholder|CHANGEME|YOUR_EMAIL|TODO: release|Until a public support address is configured|公開サポート窓口の設定前|confidential reporting channel is being prepared|非公開の報告窓口は準備中|private vulnerability reporting' \
+  PRIVACY.md TERMS.md SECURITY.md README.md CODE_OF_CONDUCT.md docs Bameyasu site .github; then
   echo "error: release placeholder found" >&2
   exit 1
 fi
+
+support_contact_files='PRIVACY.md
+SECURITY.md
+README.md
+CODE_OF_CONDUCT.md
+Bameyasu/Views/SettingsView.swift
+site/index.html
+site/en/index.html
+.github/ISSUE_TEMPLATE/config.yml
+.github/ISSUE_TEMPLATE/bug_report.yml'
+
+echo "$support_contact_files" | while IFS= read -r file; do
+  if ! grep -q 'support@hinoshiba\.com' "$file"; then
+    echo "error: canonical support contact is missing from: $file" >&2
+    exit 1
+  fi
+done
 
 if rg -n 'dBA 推定|音声は録音されません|Audio is never recorded' Bameyasu; then
   echo "error: misleading sensor wording found" >&2

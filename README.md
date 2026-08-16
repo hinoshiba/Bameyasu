@@ -83,7 +83,7 @@ Bameyasuのソースコードは[MIT License](LICENSE)です。MITは商用販�
 
 ## Contributing
 
-[CONTRIBUTING.md](CONTRIBUTING.md)と[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)をご確認ください。セキュリティ上の問題は公開Issueではなく[SECURITY.md](SECURITY.md)の窓口へ報告してください。
+[CONTRIBUTING.md](CONTRIBUTING.md)と[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)をご確認ください。一般的な問い合わせとセキュリティ上の報告先は[support@hinoshiba.com](mailto:support@hinoshiba.com)です。セキュリティ上の問題は公開Issueへ投稿せず、[SECURITY.md](SECURITY.md)もご確認ください。
 
 ---
 
