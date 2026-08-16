@@ -55,6 +55,8 @@ xcodebuild \
 
 `project.yml`がプロジェクト設定の正本です。`Bameyasu.xcodeproj`は生成物で、リポジトリには含めません。
 
+通常のSimulatorビルドとCIは署名不要で、`CODE_SIGNING_ALLOWED=NO`を維持します。同一Developer Teamの配布identityは承認済みKeychain等から再利用し、秘密鍵や証明書バンドルをリポジトリへ置きません。配布経路ごとの証明書区分、保管境界、事故対応は[コード署名ポリシー](docs/CODE_SIGNING.md)を参照してください。
+
 ## 構成
 
 ```text
@@ -76,6 +78,7 @@ Bameyasu/
 - [第三者通知](THIRD_PARTY_NOTICES.txt)
 - [ライセンス監査](docs/LICENSE_AUDIT.md)
 - [ブランド監査](docs/BRAND_AUDIT.md)
+- [コード署名ポリシー](docs/CODE_SIGNING.md)
 - [商標ポリシー](TRADEMARKS.md)
 - [セキュリティポリシー](SECURITY.md)
 

@@ -51,6 +51,6 @@ Bameyasuは一般的な生産性向けツールであり、子どもを含む利
 
 ## Changes and contact / 変更・連絡先
 
-Policy changes will be published in the repository and identified by the effective date. Send privacy inquiries and reports to [support@hinoshiba.com](mailto:support@hinoshiba.com). Do not include real sensor data, images, audio, personal information, credentials, or signing material unless the maintainer explicitly requests a safe transfer method.
+Policy changes will be published in the repository and identified by the effective date. Send privacy inquiries and reports to [support@hinoshiba.com](mailto:support@hinoshiba.com). Do not include real sensor data, images, audio, or personal information unless the maintainer explicitly arranges a safer transfer method for that non-credential diagnostic material. Never send credentials or signing material; report only its type, path, and affected commit or job.
 
-変更時はリポジトリで公開し、発効日を更新します。プライバシーに関する問い合わせ・報告は[support@hinoshiba.com](mailto:support@hinoshiba.com)へお送りください。管理者から安全な送付方法を明示されない限り、実際のセンサーデータ、画像、音声、個人情報、資格情報、署名関連情報を含めないでください。
+変更時はリポジトリで公開し、発効日を更新します。プライバシーに関する問い合わせ・報告は[support@hinoshiba.com](mailto:support@hinoshiba.com)へお送りください。管理者が資格情報ではない診断資料について安全な送付方法を明示した場合を除き、実際のセンサーデータ、画像、音声、個人情報を含めないでください。資格情報や署名資材は決して送らず、種類と影響したパス・コミット・ジョブだけを知らせてください。

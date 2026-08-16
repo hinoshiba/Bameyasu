@@ -17,4 +17,5 @@
 - [ ] Measurement wording and limits remain accurate; no medical/compliance claim
 - [ ] `METHODOLOGY.md`, `SOURCES.md`, algorithm version, and tests are updated when scoring changes
 - [ ] Every dependency/asset has commercial permission and `THIRD_PARTY_NOTICES.txt` is updated
-- [ ] No secret, signing asset, captured media, or personal data is included
+- [ ] No private key, exported signing identity, certificate bundle, provisioning profile, App Store Connect API key, Keychain, signed archive, captured media, or personal data is included
+- [ ] Any release-signing change follows `docs/CODE_SIGNING.md`; same-team identity reuse happens outside the checkout

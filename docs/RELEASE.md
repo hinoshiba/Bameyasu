@@ -20,6 +20,18 @@ This follows the useful operating principles in [Youyaku](https://github.com/hin
 7. Confirm that the HTTPS privacy, support, and terms pages resolve and that `support@hinoshiba.com` is monitored.
 8. Configure App Store privacy as Data Not Collected only after comparing the submitted binary to `PRIVACY.md`.
 
+## Code signing and secret boundary
+
+Follow the repository's [code-signing policy](CODE_SIGNING.md). For Team `94HVVWXLK3`, reuse the existing valid team-managed distribution identity when its certificate type matches the distribution channel. Reuse it through an authorized macOS Keychain or approved managed signer; never copy or export its private key into this repository or create a per-app copy as routine practice.
+
+Team ID and certificate type are not a unique selector when multiple valid identities exist. Keep the canonical fingerprint or managed alias in the maintainer's approved private signing inventory outside this repository. Automatic signing can select a cloud-managed identity and export can apply distribution signing, so neither the local Keychain list nor the pre-export archive is sufficient proof. Before upload, inspect the distribution-signed exported product or Xcode Distribution Summary outside the checkout, compare its leaf signing certificate to the external inventory, and stop on any mismatch. If the approved shared identity cannot be guaranteed automatically, use a separately reviewed external manual-signing workflow. Never record the private selector in project files.
+
+This project is currently iOS-only and keeps `CODE_SIGN_STYLE: Automatic`. Xcode selects an Apple Development identity and development profile for physical-device development, and an Apple Distribution identity with an App Store Connect provisioning profile for TestFlight and App Store submission. `Developer ID Application` is reserved for macOS distribution outside the Mac App Store and must not be assigned to this target. A future Mac App Store target must use the App Store-appropriate Mac identity and profile and enable App Sandbox instead.
+
+The repository may record Team ID, bundle identifiers, and certificate class names. It must never contain a private key, exported identity, certificate bundle, provisioning profile, App Store Connect API key, Keychain, signed archive, or certificate fingerprint. Routine simulator and pull-request builds remain unsigned with `CODE_SIGNING_ALLOWED=NO`.
+
+Before a signed release, an authorized maintainer may list local identity metadata with `security find-identity -v -p codesigning`. Do not commit or upload the output, and do not export the identity from inside the checkout. Identity creation, import, export, renewal, revocation, or CI secret provisioning requires explicit maintainer authorization.
+
 ## Version
 
 ```bash

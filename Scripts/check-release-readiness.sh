@@ -2,6 +2,7 @@
 set -eu
 
 required_files='LICENSE
+AGENTS.md
 PRIVACY.md
 TERMS.md
 METHODOLOGY.md
@@ -12,6 +13,7 @@ CONTRIBUTING.md
 CODE_OF_CONDUCT.md
 TRADEMARKS.md
 docs/BRAND_AUDIT.md
+docs/CODE_SIGNING.md
 Bameyasu/Resources/PrivacyInfo.xcprivacy
 Bameyasu/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png'
 
@@ -24,6 +26,144 @@ done
 
 plutil -lint Bameyasu/Resources/PrivacyInfo.xcprivacy >/dev/null
 plutil -lint Bameyasu/Resources/Info.plist >/dev/null
+
+forbidden_material_path='(^|/)(signing|signingassets|certificates|provisioningprofiles|secrets?)/|(^|/)(AuthKey_[^/]+\.p8|ExportOptions[^/]*\.plist|credentials?(\.[^/]*)?\.json|api[_-]?key(\.[^/]*)?\.json|app[_-]?store[_-]?connect[^/]*\.json|[^/]+\.(p12|pfx|pkcs12|p8|pem|key|cer|crt|der|certSigningRequest|csr|mobileprovision|provisionprofile|keychain|keychain-db|jks|keystore|ipa|pkg|dmg))$|\.xcarchive/'
+
+if git ls-files | rg -ni "$forbidden_material_path"; then
+  echo "error: signing, credential, or signed release material is tracked" >&2
+  exit 1
+fi
+
+if git ls-files | rg -ni '(^|/)\.env($|\.)'; then
+  echo "error: environment credential file is tracked" >&2
+  exit 1
+fi
+
+if rg --files --hidden --no-ignore --glob '!.git/**' | rg -ni "$forbidden_material_path"; then
+  echo "error: signing, credential, or signed release material exists inside the checkout" >&2
+  exit 1
+fi
+
+if rg --files --hidden --no-ignore --glob '!.git/**' \
+  | rg -ni '(^|/)\.env($|\.)'; then
+  echo "error: environment credential file exists inside the checkout" >&2
+  exit 1
+fi
+
+private_key_marker=$(printf '%s%s' 'PRIVATE ' 'KEY-----')
+if rg -lF --hidden --no-ignore --glob '!.git/**' "$private_key_marker" .; then
+  echo "error: private-key material exists inside the checkout" >&2
+  exit 1
+fi
+
+if git grep -IlF "$private_key_marker" -- .; then
+  echo "error: private-key material found in tracked content" >&2
+  exit 1
+fi
+
+credential_assignment_pattern="(?i)(?<![A-Za-z0-9_-])['\"]?(?:api[_-]?(?:key|token)|access[_-]?token|auth[_-]?token|client[_-]?secret|aws[_-]?secret[_-]?access[_-]?key|secret[_-]?access[_-]?key)['\"]?\\s*[:=]\\s*['\"]?(?=[A-Za-z0-9_./+=-]{20,}(?:['\",}\\s]|$))(?=[A-Za-z0-9_./+=-]*[0-9])(?=[A-Za-z0-9_./+=-]*[A-Za-z])[A-Za-z0-9_./+=-]{20,}"
+if rg -lP --hidden --no-ignore --glob '!.git/**' "$credential_assignment_pattern" .; then
+  echo "error: credential-like assignment exists inside the checkout" >&2
+  exit 1
+fi
+
+private_key_assignment_pattern="(^|[^[:alnum:]_-])['\"]?private[_-]?key['\"]?[[:space:]]*[:=][[:space:]]*['\"]?[[:alnum:]/+=]{24,}"
+if rg -li --hidden --no-ignore --glob '!.git/**' "$private_key_assignment_pattern" .; then
+  echo "error: private-key assignment exists inside the checkout" >&2
+  exit 1
+fi
+
+if git grep -IlEi "$private_key_assignment_pattern" -- .; then
+  echo "error: private-key assignment is tracked" >&2
+  exit 1
+fi
+
+authorization_value_pattern=$(printf '%s%s' "['\"]?Author" "ization['\"]?[[:space:]]*:[[:space:]]*['\"]?(Bearer|Basic)[[:space:]]+[[:alnum:]._~+/-]{16,}")
+credential_value_pattern="github_pat_[[:alnum:]_]{20,}|gh[pousr]_[[:alnum:]]{20,}|(AKIA|ASIA)[[:upper:][:digit:]]{16}|$authorization_value_pattern"
+if rg -li --hidden --no-ignore --glob '!.git/**' "$credential_value_pattern" .; then
+  echo "error: credential-like value exists inside the checkout" >&2
+  exit 1
+fi
+
+if git grep -IlEi "$credential_value_pattern" -- .; then
+  echo "error: credential-like value found in tracked content" >&2
+  exit 1
+fi
+
+identity_output_pattern='^[[:space:]]*[0-9]+\) [[:xdigit:]]{40} ".*(Developer ID|Distribution|Development)'
+if rg -l --hidden --no-ignore --glob '!.git/**' "$identity_output_pattern" .; then
+  echo "error: signing identity output exists inside the checkout" >&2
+  exit 1
+fi
+
+if git grep -IlE "$identity_output_pattern" -- .; then
+  echo "error: signing identity output or certificate fingerprint is tracked" >&2
+  exit 1
+fi
+
+selector_key_pattern='cert(ificate)?[_-]?(fingerprint|sha1|sha256|owner|alias)|signing[_-]?(fingerprint|identity|owner|alias)|managed[_-]?signer[_-]?alias|CODE_SIGN_IDENTITY|PROVISIONING_PROFILE(_SPECIFIER)?'
+private_selector_pattern="(^|[^[:alnum:]_-])['\"]?($selector_key_pattern)['\"]?(\[[^]]+\])?[[:space:]]*=[[:space:]]*['\"]?[^[:space:]'\",}]{4,}|^[[:space:]]*['\"]?($selector_key_pattern)['\"]?(\[[^]]+\])?[[:space:]]*:[[:space:]]*['\"][^'\"]{4,}"
+if rg -li --hidden --no-ignore \
+  --glob '!.git/**' \
+  --glob '!DerivedData/**' \
+  --glob '!build/**' \
+  --glob '!*.xcodeproj/**' \
+  "$private_selector_pattern" .; then
+  echo "error: private signing selector assignment exists inside the checkout" >&2
+  exit 1
+fi
+
+if git grep -IlEi "$private_selector_pattern" -- .; then
+  echo "error: private signing selector assignment is tracked" >&2
+  exit 1
+fi
+
+if [ "$(git rev-parse --is-shallow-repository)" = "true" ]; then
+  echo "error: full Git history is required for secret-material checks" >&2
+  exit 1
+fi
+
+if git log --all --name-only --format= | rg -ni "$forbidden_material_path"; then
+  echo "error: signing, credential, or signed release material exists in reachable history" >&2
+  exit 1
+fi
+
+if git log --all --name-only --format= | rg -ni '(^|/)\.env($|\.)'; then
+  echo "error: environment credential file exists in reachable history" >&2
+  exit 1
+fi
+
+for commit in $(git rev-list --all); do
+  if git grep -IlF "$private_key_marker" "$commit" -- .; then
+    echo "error: private-key material exists in reachable history at commit $commit" >&2
+    exit 1
+  fi
+  if git grep -IlP "$credential_assignment_pattern" "$commit" -- .; then
+    echo "error: credential-like assignment exists in reachable history at commit $commit" >&2
+    exit 1
+  fi
+  if git grep -IlEi "$credential_value_pattern" "$commit" -- .; then
+    echo "error: credential-like value exists in reachable history at commit $commit" >&2
+    exit 1
+  fi
+  if git grep -IlEi "$private_key_assignment_pattern" "$commit" -- .; then
+    echo "error: private-key assignment exists in reachable history at commit $commit" >&2
+    exit 1
+  fi
+  if git grep -IlE "$identity_output_pattern" "$commit" -- .; then
+    echo "error: signing identity output exists in reachable history at commit $commit" >&2
+    exit 1
+  fi
+  if git grep -IlEi "$private_selector_pattern" "$commit" -- .; then
+    echo "error: private signing selector assignment exists in reachable history at commit $commit" >&2
+    exit 1
+  fi
+done
+
+if git grep -IlE '^[[:space:]]*(CODE_SIGN_IDENTITY|PROVISIONING_PROFILE(_SPECIFIER)?)(\[[^]]+\])?[[:space:]]*[:=]' -- project.yml '*.xcconfig' '*.pbxproj'; then
+  echo "error: signing identity or provisioning profile must not be pinned in tracked project configuration" >&2
+  exit 1
+fi
 
 if rg -n 'contact-placeholder|CHANGEME|YOUR_EMAIL|TODO: release|Until a public support address is configured|公開サポート窓口の設定前|confidential reporting channel is being prepared|非公開の報告窓口は準備中|private vulnerability reporting' \
   PRIVACY.md TERMS.md SECURITY.md README.md CODE_OF_CONDUCT.md docs Bameyasu site .github; then
@@ -86,6 +226,140 @@ fi
 
 grep -Fqx 'name: Bameyasu' project.yml
 grep -Fqx '  bundleIdPrefix: com.hinoshiba' project.yml
+grep -Fqx '    CODE_SIGN_STYLE: Automatic' project.yml
+grep -Fqx '    DEVELOPMENT_TEAM: "94HVVWXLK3"' project.yml
+automation_file_pattern='^Scripts/|^project\.yml$|^Package\.swift$|^\.github/workflows/.*\.ya?ml$|^\.github/actions/(.*/)?action\.ya?ml$|(^|/)([^/]+\.(sh|bash|zsh|rb|py|pl|js|mjs|cjs|ts)|Makefile|GNUmakefile|Fastfile|Rakefile|Justfile|Podfile|Cartfile|package\.json|project\.pbxproj|Taskfile(\.ya?ml)?)$'
+tracked_executable_files=$(git ls-files --stage | awk '$1 == "100755"' | cut -f2-)
+automation_files=$(
+  {
+    rg --files --hidden --no-ignore \
+      --glob '!.git/**' \
+      --glob '!DerivedData/**' \
+      --glob '!build/**' \
+      --glob '!.build/**' \
+      --glob '!*.xcodeproj/**' \
+      | rg -i "$automation_file_pattern"
+    printf '%s\n' "$tracked_executable_files"
+  } \
+    | sed '/^$/d' \
+    | sort -u
+)
+if printf '%s\n' "$automation_files" | rg -n '[^[:alnum:]_./-]'; then
+  echo "error: automation path contains whitespace or shell metacharacters and cannot be audited safely" >&2
+  exit 1
+fi
+file_has_xcodebuild() {
+  awk '
+    /^[[:space:]]*#/ { next }
+    { if (tolower($0) ~ /(^|[^[:alnum:]_])xcodebuild([^[:alnum:]_]|$)/) found = 1 }
+    END { exit found ? 0 : 1 }
+  ' "$1"
+}
+xcodebuild_files=''
+for file in $automation_files; do
+  if [ "$file" != 'Scripts/check-release-readiness.sh' ] \
+    && file_has_xcodebuild "$file"; then
+    if [ -n "$xcodebuild_files" ]; then
+      xcodebuild_files="$xcodebuild_files
+$file"
+    else
+      xcodebuild_files=$file
+    fi
+  fi
+done
+xcodebuild_files=$(printf '%s\n' "$xcodebuild_files" | sed '/^$/d' | sort)
+allowed_xcodebuild_files='.github/workflows/ci.yml
+build.sh'
+if [ "$xcodebuild_files" != "$allowed_xcodebuild_files" ]; then
+  echo "error: xcodebuild invocation found outside the reviewed unsigned build entrypoints" >&2
+  if [ -n "$xcodebuild_files" ]; then
+    echo "$xcodebuild_files" >&2
+  fi
+  exit 1
+fi
+check_unsigned_xcodebuilds() {
+  awk '
+    function finish_command() {
+      if (in_command && !unsigned) failed = 1
+      in_command = 0
+      unsigned = 0
+    }
+    {
+      code = $0
+      if (code ~ /^[[:space:]]*#/ || code ~ /^[[:space:]]*$/) {
+        if (in_command) failed = 1
+        next
+      }
+      lower = tolower(code)
+      remaining = lower
+      commands = 0
+      while (match(remaining, /(^|[^[:alnum:]_])xcodebuild([^[:alnum:]_]|$)/)) {
+        commands += 1
+        remaining = substr(remaining, RSTART + RLENGTH)
+      }
+      if (commands > 1 || (in_command && commands > 0)) failed = 1
+      if ((in_command || commands == 1) && code ~ /#/) failed = 1
+      if (in_command && code ~ /(&&|\|\||;)/) failed = 1
+      if (!in_command && commands == 1) {
+        in_command = 1
+        seen += 1
+        if (lower ~ /(^|[^[:alnum:]_])archive([^[:alnum:]_]|$)/) failed = 1
+        if (code ~ /(^|[[:space:]\\])CODE_SIGNING_ALLOWED=NO([^[:alnum:]_]|$)/) unsigned = 1
+        if (code ~ /(&&|\|\||;)/) failed = 1
+        if (code !~ /\\[[:space:]]*$/) finish_command()
+        next
+      }
+      if (in_command) {
+        if (lower ~ /(^|[^[:alnum:]_])archive([^[:alnum:]_]|$)/) failed = 1
+        if (code ~ /(^|[[:space:]\\])CODE_SIGNING_ALLOWED=NO([^[:alnum:]_]|$)/) unsigned = 1
+        if (code !~ /\\[[:space:]]*$/) finish_command()
+      }
+    }
+    END {
+      finish_command()
+      if (seen == 0 || failed) exit 1
+    }
+  ' "$1"
+}
+if ! check_unsigned_xcodebuilds build.sh; then
+  echo "error: every routine local xcodebuild command must include CODE_SIGNING_ALLOWED=NO" >&2
+  exit 1
+fi
+if ! check_unsigned_xcodebuilds .github/workflows/ci.yml; then
+  echo "error: every routine CI xcodebuild command must include CODE_SIGNING_ALLOWED=NO" >&2
+  exit 1
+fi
+for file in build.sh .github/workflows/ci.yml; do
+  if awk '$0 !~ /^[[:space:]]*#/' "$file" \
+    | rg -qi '(^|[^[:alnum:]_])archive([^[:alnum:]_]|$)'; then
+    echo "error: routine unsigned build entrypoint must not contain an archive action: $file" >&2
+    exit 1
+  fi
+done
+signing_operation_files=''
+for file in $automation_files; do
+  if [ "$file" != 'Scripts/check-release-readiness.sh' ] \
+    && awk '$0 !~ /^[[:space:]]*#/' "$file" \
+      | rg -qi '(^|[^[:alnum:]_])security([^[:alnum:]_]|$)|CODE_SIGNING_ALLOWED=YES|CODE_SIGN_IDENTITY|PROVISIONING_PROFILE|exportArchive|-archivePath|codesign|productbuild|productsign|notarytool|stapler|secrets[[:space:]]*(\.|\[|:)|(^|[^[:alnum:]_])(match|cert|sigh|gym|build_app|sync_code_signing|get_certificates|get_provisioning_profile|upload_to_app_store|upload_to_testflight|pilot|deliver|app_store_connect_api_key)[[:space:]]*(\(|$)'; then
+    if [ -n "$signing_operation_files" ]; then
+      signing_operation_files="$signing_operation_files
+$file"
+    else
+      signing_operation_files=$file
+    fi
+  fi
+done
+if [ -n "$signing_operation_files" ]; then
+  printf '%s\n' "$signing_operation_files" | sort -u >&2
+  echo "error: routine CI must not import or use signing credentials" >&2
+  exit 1
+fi
+grep -Fq '[the code-signing policy](docs/CODE_SIGNING.md)' AGENTS.md
+grep -Fq '[code-signing policy](docs/CODE_SIGNING.md)' CONTRIBUTING.md
+grep -Fq '[code-signing policy](docs/CODE_SIGNING.md)' SECURITY.md
+grep -Fq '[code-signing policy](CODE_SIGNING.md)' docs/RELEASE.md
+grep -Fq 'Apple Developer Team ID: `94HVVWXLK3`' docs/CODE_SIGNING.md
+grep -Fq '`Developer ID Application` is for macOS software distributed outside the Mac App Store.' docs/CODE_SIGNING.md
 grep -Fq '| App bundle identifier | `com.hinoshiba.bameyasu` |' docs/BRAND_AUDIT.md
 grep -Fq '| Test bundle identifier | `com.hinoshiba.bameyasu.tests` |' docs/BRAND_AUDIT.md
 grep -Fq '| Apple bundle lookup | `com.hinoshiba.bameyasu` |' docs/BRAND_AUDIT.md
