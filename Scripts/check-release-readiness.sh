@@ -1,8 +1,9 @@
 #!/bin/sh
 set -eu
 
+/bin/sh -n ci_scripts/*.sh
+
 required_files='LICENSE
-AGENTS.md
 PRIVACY.md
 TERMS.md
 METHODOLOGY.md
@@ -14,6 +15,9 @@ CODE_OF_CONDUCT.md
 TRADEMARKS.md
 docs/BRAND_AUDIT.md
 docs/CODE_SIGNING.md
+Bameyasu.xcodeproj/project.pbxproj
+Bameyasu.xcodeproj/xcshareddata/xcschemes/Bameyasu.xcscheme
+ci_scripts/ci_pre_xcodebuild.sh
 Bameyasu/Resources/PrivacyInfo.xcprivacy
 Bameyasu/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png'
 
@@ -101,7 +105,7 @@ if git grep -IlE "$identity_output_pattern" -- .; then
   exit 1
 fi
 
-selector_key_pattern='cert(ificate)?[_-]?(fingerprint|sha1|sha256|owner|alias)|signing[_-]?(fingerprint|identity|owner|alias)|managed[_-]?signer[_-]?alias|CODE_SIGN_IDENTITY|PROVISIONING_PROFILE(_SPECIFIER)?'
+selector_key_pattern='cert(ificate)?[_-]?(fingerprint|sha1|sha256|owner|alias)|signing[_-]?(fingerprint|identity|owner|alias)|managed[_-]?signer[_-]?alias|PROVISIONING_PROFILE(_SPECIFIER)?'
 private_selector_pattern="(^|[^[:alnum:]_-])['\"]?($selector_key_pattern)['\"]?(\[[^]]+\])?[[:space:]]*=[[:space:]]*['\"]?[^[:space:]'\",}]{4,}|^[[:space:]]*['\"]?($selector_key_pattern)['\"]?(\[[^]]+\])?[[:space:]]*:[[:space:]]*['\"][^'\"]{4,}"
 if rg -li --hidden --no-ignore \
   --glob '!.git/**' \
@@ -158,10 +162,29 @@ for commit in $(git rev-list --all); do
     echo "error: private signing selector assignment exists in reachable history at commit $commit" >&2
     exit 1
   fi
+  unexpected_historical_signing_identities=$(git grep -IhE \
+    '^[[:space:]]*CODE_SIGN_IDENTITY(\[[^]]+\])?[[:space:]]*[:=]' \
+    "$commit" -- . 2>/dev/null \
+    | rg -v '^[[:space:]]*CODE_SIGN_IDENTITY = "iPhone Developer";$' || true)
+  if [ -n "$unexpected_historical_signing_identities" ]; then
+    echo "error: non-generic signing identity exists in reachable history at commit $commit" >&2
+    exit 1
+  fi
 done
 
-if git grep -IlE '^[[:space:]]*(CODE_SIGN_IDENTITY|PROVISIONING_PROFILE(_SPECIFIER)?)(\[[^]]+\])?[[:space:]]*[:=]' -- project.yml '*.xcconfig' '*.pbxproj'; then
-  echo "error: signing identity or provisioning profile must not be pinned in tracked project configuration" >&2
+if rg -n '^[[:space:]]*PROVISIONING_PROFILE(_SPECIFIER)?(\[[^]]+\])?[[:space:]]*[:=]' \
+    project.yml Bameyasu.xcodeproj --glob 'project.yml' --glob '*.xcconfig' --glob '*.pbxproj'; then
+  echo "error: provisioning profiles must not be pinned in project configuration" >&2
+  exit 1
+fi
+
+unexpected_signing_identities=$(rg -n \
+  '^[[:space:]]*CODE_SIGN_IDENTITY(\[[^]]+\])?[[:space:]]*[:=]' \
+  project.yml Bameyasu.xcodeproj --glob 'project.yml' --glob '*.xcconfig' --glob '*.pbxproj' \
+  | rg -v 'CODE_SIGN_IDENTITY = "iPhone Developer";$' || true)
+if [ -n "$unexpected_signing_identities" ]; then
+  echo "$unexpected_signing_identities" >&2
+  echo "error: only XcodeGen's generic iPhone Developer selector is allowed with automatic signing" >&2
   exit 1
 fi
 
@@ -354,7 +377,6 @@ if [ -n "$signing_operation_files" ]; then
   echo "error: routine CI must not import or use signing credentials" >&2
   exit 1
 fi
-grep -Fq '[the code-signing policy](docs/CODE_SIGNING.md)' AGENTS.md
 grep -Fq '[code-signing policy](docs/CODE_SIGNING.md)' CONTRIBUTING.md
 grep -Fq '[code-signing policy](docs/CODE_SIGNING.md)' SECURITY.md
 grep -Fq '[code-signing policy](CODE_SIGNING.md)' docs/RELEASE.md
@@ -364,11 +386,11 @@ grep -Fq '| App bundle identifier | `com.hinoshiba.bameyasu` |' docs/BRAND_AUDIT
 grep -Fq '| Test bundle identifier | `com.hinoshiba.bameyasu.tests` |' docs/BRAND_AUDIT.md
 grep -Fq '| Apple bundle lookup | `com.hinoshiba.bameyasu` |' docs/BRAND_AUDIT.md
 grep -Fq 'App Store Connect record for `com.hinoshiba.bameyasu`' docs/BRAND_AUDIT.md
-grep -Fq 'Register `com.hinoshiba.bameyasu`' docs/RELEASE.md
 grep -Fq 'DispatchQueue(label: "com.hinoshiba.bameyasu.camera.session")' Bameyasu/Services/LightMeter.swift
 grep -Fq 'DispatchQueue(label: "com.hinoshiba.bameyasu.camera.samples"' Bameyasu/Services/LightMeter.swift
 grep -Fq 'queue.name = "com.hinoshiba.bameyasu.motion"' Bameyasu/Services/MotionMeter.swift
 grep -q 'https://github.com/hinoshiba/Bameyasu' Bameyasu/Views/SettingsView.swift
+test -x ci_scripts/ci_pre_xcodebuild.sh
 
 if find . -maxdepth 3 -type f \( -name Package.resolved -o -name Podfile.lock -o -name Cartfile.resolved \) | grep -q .; then
   echo "error: dependency lockfile found; update THIRD_PARTY_NOTICES.txt and this audit gate" >&2

@@ -31,7 +31,7 @@ iPhoneの内蔵環境光センサーは、一般の商用アプリからlux値�
 - iOS 17以降
 - iPhone
 - Xcode 16以降
-- [XcodeGen](https://github.com/yonaskolb/XcodeGen)
+- [XcodeGen](https://github.com/yonaskolb/XcodeGen)（プロジェクト構成を変更する場合）
 
 ランタイムの外部パッケージ依存はありません。
 
@@ -53,9 +53,11 @@ xcodebuild \
   test CODE_SIGNING_ALLOWED=NO
 ```
 
-`project.yml`がプロジェクト設定の正本です。`Bameyasu.xcodeproj`は生成物で、リポジトリには含めません。
+`project.yml`がプロジェクト設定の正本です。Xcode Cloudが常に同じプロジェクトを読み込めるよう、生成した`Bameyasu.xcodeproj`もリポジトリに含めます。`project.yml`を変更したら`xcodegen generate`を実行し、両方を同じPRで更新してください。
 
-通常のSimulatorビルドとCIは署名不要で、`CODE_SIGNING_ALLOWED=NO`を維持します。同一Developer Teamの配布identityは承認済みKeychain等から再利用し、秘密鍵や証明書バンドルをリポジトリへ置きません。配布経路ごとの証明書区分、保管境界、事故対応は[コード署名ポリシー](docs/CODE_SIGNING.md)を参照してください。
+通常のSimulatorビルドとGitHub CIは署名不要で、`CODE_SIGNING_ALLOWED=NO`を維持します。App Store向けの署名とuploadはXcode Cloudの自動署名に限定し、秘密鍵、証明書バンドル、provisioning profile、App Store Connect資格情報をGitHubに置きません。保管境界と事故対応は[コード署名ポリシー](docs/CODE_SIGNING.md)を参照してください。
+
+App Store向けビルドはローカルで作成しません。バージョンを更新してPRをmergeした後、`vX.Y.Z`形式のタグをpushするとXcode Cloudがtest・archive・App Store Connectへのuploadを実行します。設定値と運用手順は[release runbook](docs/RELEASE.md)を参照してください。
 
 ## 構成
 
