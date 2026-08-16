@@ -61,9 +61,30 @@ if rg -n 'Habimetry|habimetry|ハビメトリー|com\.hinoshiba\.akari|hinoshiba
   exit 1
 fi
 
-grep -q '^name: Bameyasu$' project.yml
-grep -q 'PRODUCT_BUNDLE_IDENTIFIER: com.hinoshiba.bameyasu$' project.yml
-grep -q 'PRODUCT_BUNDLE_IDENTIFIER: com.hinoshiba.bameyasu.tests$' project.yml
+legacy_bundle_id=$(printf '%s%s' 'com.hinoshiba.' 'bameyasu')
+if git grep -niF "$legacy_bundle_id" -- .; then
+  echo "error: legacy Bameyasu bundle identifier found" >&2
+  exit 1
+fi
+
+if git grep -IioE 'bameyasu\.hinoshiba\.com' -- . \
+  | cut -d: -f2- \
+  | grep -Fvx 'bameyasu.hinoshiba.com'; then
+  echo "error: Bameyasu identifier must be lowercase" >&2
+  exit 1
+fi
+
+configured_bundle_ids=$(sed -n 's/^[[:space:]]*PRODUCT_BUNDLE_IDENTIFIER: //p' project.yml)
+expected_bundle_ids='bameyasu.hinoshiba.com
+bameyasu.hinoshiba.com.tests'
+
+if [ "$configured_bundle_ids" != "$expected_bundle_ids" ]; then
+  echo "error: unexpected product bundle identifier in project.yml" >&2
+  exit 1
+fi
+
+grep -Fqx 'name: Bameyasu' project.yml
+grep -Fqx '  bundleIdPrefix: bameyasu.hinoshiba.com' project.yml
 grep -q 'https://github.com/hinoshiba/Bameyasu' Bameyasu/Views/SettingsView.swift
 
 if find . -maxdepth 3 -type f \( -name Package.resolved -o -name Podfile.lock -o -name Cartfile.resolved \) | grep -q .; then

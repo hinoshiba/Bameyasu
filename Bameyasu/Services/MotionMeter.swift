@@ -16,7 +16,7 @@ final class MotionMeter: ObservableObject {
     private let manager = CMMotionManager()
     private let queue: OperationQueue = {
         let queue = OperationQueue()
-        queue.name = "com.hinoshiba.bameyasu.motion"
+        queue.name = "bameyasu.hinoshiba.com.motion"
         queue.qualityOfService = .userInitiated
         queue.maxConcurrentOperationCount = 1
         return queue

@@ -34,8 +34,8 @@ final class LightMeter: NSObject, ObservableObject {
     @Published private(set) var isRunning = false
 
     nonisolated(unsafe) private let captureSession = AVCaptureSession()
-    private let sessionQueue = DispatchQueue(label: "com.hinoshiba.bameyasu.camera.session")
-    private let sampleQueue = DispatchQueue(label: "com.hinoshiba.bameyasu.camera.samples", qos: .userInitiated)
+    private let sessionQueue = DispatchQueue(label: "bameyasu.hinoshiba.com.camera.session")
+    private let sampleQueue = DispatchQueue(label: "bameyasu.hinoshiba.com.camera.samples", qos: .userInitiated)
     private var camera: AVCaptureDevice?
     private var recentLux: [Double] = []
     nonisolated(unsafe) private var configured = false

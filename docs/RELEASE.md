@@ -8,10 +8,10 @@ This follows the useful operating principles in [Youyaku](https://github.com/hin
 2. Confirm that the canonical repository remains `hinoshiba/Bameyasu`, that
    `origin` points to it, and that every in-app source, issue, and security URL
    resolves before release.
-3. Register `com.hinoshiba.bameyasu` and enable only required capabilities. A
+3. Register `bameyasu.hinoshiba.com` and enable only required capabilities. A
    bundle identifier cannot be changed after the App Store record is created.
-   The earlier `Akari` and `Habimetry` identifiers were pre-release working
-   names and were never shipped, so no sandbox-data migration is provided. If
+   Changing from any previous pre-release identifier creates a new sandbox
+   identity, and this repository does not provide automatic data migration. If
    any build has already been distributed outside this repository, stop and
    design an explicit migration before changing its identifier or storage path.
 4. Set the primary category to Productivity. Avoid medical, diagnostic, safety-guarantee, and compliance claims.
