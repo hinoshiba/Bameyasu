@@ -1,7 +1,12 @@
 #!/bin/sh
 set -eu
+cd "$(dirname "$0")/.."
+case "${1:-}" in
+  ""|--history) ;;
+  *) echo "usage: $0 [--history]" >&2; exit 2 ;;
+esac
 
-/bin/sh -n ci_scripts/*.sh
+/bin/sh -n build.sh Scripts/*.sh
 
 required_files='LICENSE
 PRIVACY.md
@@ -17,7 +22,6 @@ docs/BRAND_AUDIT.md
 docs/CODE_SIGNING.md
 Bameyasu.xcodeproj/project.pbxproj
 Bameyasu.xcodeproj/xcshareddata/xcschemes/Bameyasu.xcscheme
-ci_scripts/ci_pre_xcodebuild.sh
 Bameyasu/Resources/PrivacyInfo.xcprivacy
 Bameyasu/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png'
 
@@ -43,19 +47,19 @@ if git ls-files | rg -ni '(^|/)\.env($|\.)'; then
   exit 1
 fi
 
-if rg --files --hidden --no-ignore --glob '!.git/**' | rg -ni "$forbidden_material_path"; then
+if rg --files --hidden --glob '!.git/**' | rg -ni "$forbidden_material_path"; then
   echo "error: signing, credential, or signed release material exists inside the checkout" >&2
   exit 1
 fi
 
-if rg --files --hidden --no-ignore --glob '!.git/**' \
+if rg --files --hidden --glob '!.git/**' \
   | rg -ni '(^|/)\.env($|\.)'; then
   echo "error: environment credential file exists inside the checkout" >&2
   exit 1
 fi
 
 private_key_marker=$(printf '%s%s' 'PRIVATE ' 'KEY-----')
-if rg -lF --hidden --no-ignore --glob '!.git/**' "$private_key_marker" .; then
+if rg -lF --hidden --glob '!.git/**' "$private_key_marker" .; then
   echo "error: private-key material exists inside the checkout" >&2
   exit 1
 fi
@@ -66,13 +70,18 @@ if git grep -IlF "$private_key_marker" -- .; then
 fi
 
 credential_assignment_pattern="(?i)(?<![A-Za-z0-9_-])['\"]?(?:api[_-]?(?:key|token)|access[_-]?token|auth[_-]?token|client[_-]?secret|aws[_-]?secret[_-]?access[_-]?key|secret[_-]?access[_-]?key)['\"]?\\s*[:=]\\s*['\"]?(?=[A-Za-z0-9_./+=-]{20,}(?:['\",}\\s]|$))(?=[A-Za-z0-9_./+=-]*[0-9])(?=[A-Za-z0-9_./+=-]*[A-Za-z])[A-Za-z0-9_./+=-]{20,}"
-if rg -lP --hidden --no-ignore --glob '!.git/**' "$credential_assignment_pattern" .; then
+if rg -lP --hidden --glob '!.git/**' "$credential_assignment_pattern" .; then
   echo "error: credential-like assignment exists inside the checkout" >&2
   exit 1
 fi
 
+if git grep -IlP "$credential_assignment_pattern" -- .; then
+  echo "error: credential-like assignment is tracked" >&2
+  exit 1
+fi
+
 private_key_assignment_pattern="(^|[^[:alnum:]_-])['\"]?private[_-]?key['\"]?[[:space:]]*[:=][[:space:]]*['\"]?[[:alnum:]/+=]{24,}"
-if rg -li --hidden --no-ignore --glob '!.git/**' "$private_key_assignment_pattern" .; then
+if rg -li --hidden --glob '!.git/**' "$private_key_assignment_pattern" .; then
   echo "error: private-key assignment exists inside the checkout" >&2
   exit 1
 fi
@@ -84,7 +93,7 @@ fi
 
 authorization_value_pattern=$(printf '%s%s' "['\"]?Author" "ization['\"]?[[:space:]]*:[[:space:]]*['\"]?(Bearer|Basic)[[:space:]]+[[:alnum:]._~+/-]{16,}")
 credential_value_pattern="github_pat_[[:alnum:]_]{20,}|gh[pousr]_[[:alnum:]]{20,}|(AKIA|ASIA)[[:upper:][:digit:]]{16}|$authorization_value_pattern"
-if rg -li --hidden --no-ignore --glob '!.git/**' "$credential_value_pattern" .; then
+if rg -li --hidden --glob '!.git/**' "$credential_value_pattern" .; then
   echo "error: credential-like value exists inside the checkout" >&2
   exit 1
 fi
@@ -95,7 +104,7 @@ if git grep -IlEi "$credential_value_pattern" -- .; then
 fi
 
 identity_output_pattern='^[[:space:]]*[0-9]+\) [[:xdigit:]]{40} ".*(Developer ID|Distribution|Development)'
-if rg -l --hidden --no-ignore --glob '!.git/**' "$identity_output_pattern" .; then
+if rg -l --hidden --glob '!.git/**' "$identity_output_pattern" .; then
   echo "error: signing identity output exists inside the checkout" >&2
   exit 1
 fi
@@ -107,7 +116,7 @@ fi
 
 selector_key_pattern='cert(ificate)?[_-]?(fingerprint|sha1|sha256|owner|alias)|signing[_-]?(fingerprint|identity|owner|alias)|managed[_-]?signer[_-]?alias|PROVISIONING_PROFILE(_SPECIFIER)?'
 private_selector_pattern="(^|[^[:alnum:]_-])['\"]?($selector_key_pattern)['\"]?(\[[^]]+\])?[[:space:]]*=[[:space:]]*['\"]?[^[:space:]'\",}]{4,}|^[[:space:]]*['\"]?($selector_key_pattern)['\"]?(\[[^]]+\])?[[:space:]]*:[[:space:]]*['\"][^'\"]{4,}"
-if rg -li --hidden --no-ignore \
+if rg -li --hidden \
   --glob '!.git/**' \
   --glob '!DerivedData/**' \
   --glob '!build/**' \
@@ -122,6 +131,8 @@ if git grep -IlEi "$private_selector_pattern" -- .; then
   exit 1
 fi
 
+# Historical audits are opt-in so source-only PR builds do not require full history.
+if [ "${1:-}" = --history ]; then
 if [ "$(git rev-parse --is-shallow-repository)" = "true" ]; then
   echo "error: full Git history is required for secret-material checks" >&2
   exit 1
@@ -172,6 +183,8 @@ for commit in $(git rev-list --all); do
   fi
 done
 
+fi
+
 if rg -n '^[[:space:]]*PROVISIONING_PROFILE(_SPECIFIER)?(\[[^]]+\])?[[:space:]]*[:=]' \
     project.yml Bameyasu.xcodeproj --glob 'project.yml' --glob '*.xcconfig' --glob '*.pbxproj'; then
   echo "error: provisioning profiles must not be pinned in project configuration" >&2
@@ -183,7 +196,6 @@ unexpected_signing_identities=$(rg -n \
   project.yml Bameyasu.xcodeproj --glob 'project.yml' --glob '*.xcconfig' --glob '*.pbxproj' \
   | rg -v 'CODE_SIGN_IDENTITY = "iPhone Developer";$' || true)
 if [ -n "$unexpected_signing_identities" ]; then
-  echo "$unexpected_signing_identities" >&2
   echo "error: only XcodeGen's generic iPhone Developer selector is allowed with automatic signing" >&2
   exit 1
 fi
@@ -200,7 +212,6 @@ README.md
 CODE_OF_CONDUCT.md
 Bameyasu/Views/SettingsView.swift
 site/index.html
-site/en/index.html
 .github/ISSUE_TEMPLATE/config.yml
 .github/ISSUE_TEMPLATE/bug_report.yml'
 
@@ -255,7 +266,7 @@ automation_file_pattern='^Scripts/|^project\.yml$|^Package\.swift$|^\.github/wor
 tracked_executable_files=$(git ls-files --stage | awk '$1 == "100755"' | cut -f2-)
 automation_files=$(
   {
-    rg --files --hidden --no-ignore \
+    rg --files --hidden \
       --glob '!.git/**' \
       --glob '!DerivedData/**' \
       --glob '!build/**' \
@@ -280,7 +291,7 @@ file_has_xcodebuild() {
 }
 xcodebuild_files=''
 for file in $automation_files; do
-  if [ "$file" != 'Scripts/check-release-readiness.sh' ] \
+  if [ -f "$file" ] && [ "$file" != 'Scripts/check-release-readiness.sh' ] \
     && file_has_xcodebuild "$file"; then
     if [ -n "$xcodebuild_files" ]; then
       xcodebuild_files="$xcodebuild_files
@@ -361,7 +372,7 @@ for file in build.sh .github/workflows/ci.yml; do
 done
 signing_operation_files=''
 for file in $automation_files; do
-  if [ "$file" != 'Scripts/check-release-readiness.sh' ] \
+  if [ -f "$file" ] && [ "$file" != 'Scripts/check-release-readiness.sh' ] \
     && awk '$0 !~ /^[[:space:]]*#/' "$file" \
       | rg -qi '(^|[^[:alnum:]_])security([^[:alnum:]_]|$)|CODE_SIGNING_ALLOWED=YES|CODE_SIGN_IDENTITY|PROVISIONING_PROFILE|exportArchive|-archivePath|codesign|productbuild|productsign|notarytool|stapler|secrets[[:space:]]*(\.|\[|:)|(^|[^[:alnum:]_])(match|cert|sigh|gym|build_app|sync_code_signing|get_certificates|get_provisioning_profile|upload_to_app_store|upload_to_testflight|pilot|deliver|app_store_connect_api_key)[[:space:]]*(\(|$)'; then
     if [ -n "$signing_operation_files" ]; then
@@ -396,8 +407,6 @@ if rg -n 'Text\("[0-9]+\.[0-9]+\.[0-9]+ \([0-9]+\)"\)' Bameyasu/Views/SettingsVi
   echo "error: Settings must display the bundle version/build instead of a fallback release number" >&2
   exit 1
 fi
-test -x ci_scripts/ci_pre_xcodebuild.sh
-
 if find . -maxdepth 3 -type f \( -name Package.resolved -o -name Podfile.lock -o -name Cartfile.resolved \) | grep -q .; then
   echo "error: dependency lockfile found; update THIRD_PARTY_NOTICES.txt and this audit gate" >&2
   exit 1

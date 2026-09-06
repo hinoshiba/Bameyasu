@@ -35,7 +35,7 @@ struct SettingsView: View {
                     ))
                 }
 
-                Section(L10n.text("プライバシーと透明性", "Privacy and transparency")) {
+                Section(L10n.text("アプリについて", "About the app")) {
                     NavigationLink(L10n.text("プライバシー", "Privacy")) {
                         LegalTextView(kind: .privacy)
                     }
@@ -45,10 +45,8 @@ struct SettingsView: View {
                     NavigationLink(L10n.text("オープンソースライセンス", "Open-source licenses")) {
                         LegalTextView(kind: .licenses)
                     }
-                    Link(
-                        L10n.text("サポートへ連絡", "Contact support"),
-                        destination: URL(string: "mailto:support@hinoshiba.com")!
-                    )
+                    Link(L10n.text("サポート", "Support"), destination: URL(string: L10n.text("https://bameyasu.hinoshiba.com/#support", "https://bameyasu.hinoshiba.com/?lang=en#en-support"))!)
+                    Link(L10n.text("プライバシーポリシー", "Privacy policy"), destination: URL(string: L10n.text("https://bameyasu.hinoshiba.com/#privacy", "https://bameyasu.hinoshiba.com/?lang=en#en-privacy"))!)
                     Link(L10n.text("ソースコード", "Source code"), destination: URL(string: "https://github.com/hinoshiba/Bameyasu")!)
                 }
 
@@ -133,8 +131,8 @@ private struct LegalTextView: View {
         switch kind {
         case .privacy:
             L10n.text(
-                "Bameyasuはアカウント、広告、分析SDK、クラウド送信を使用しません。カメラ・マイク・モーション入力は測定中だけ端末上でリアルタイム処理し、画像・映像・音声・生のセンサーデータを保存または送信しません。結果と設定は端末内だけに保存され、記録画面から削除できます。ガイド内の外部リンクを開くと、遷移先の通常のアクセス情報が相手先へ送られます。support@hinoshiba.comへメールを送ると、送信内容は返信・サポート・調査のためメール事業者を通じて受領され、その目的または法的・セキュリティ上の義務に合理的に必要な期間だけ保持されます。これらの義務に反しない範囲で、同じ宛先へ削除を依頼できます。詳細は配布リポジトリのPRIVACY.mdをご覧ください。",
-                "Bameyasu uses no accounts, ads, analytics SDKs, or cloud transmission. Camera, microphone, and motion input are processed live on device only during a check; images, video, audio, and raw sensor data are not saved or transmitted. Results and settings stay on device and history can be deleted. Opening an external guide link sends ordinary access information to that destination. Email sent to support@hinoshiba.com is received through the email provider for replies, support, and investigation, and retained only as long as reasonably necessary for those purposes or legal and security obligations. You may request deletion at the same address, subject to those obligations. See PRIVACY.md in the source repository for details."
+                "カメラ・マイク・モーション入力はチェック中にiPhoneで処理し、画像・映像・音声・生のセンサーデータを保存せず、開発者へ送信しません。結果と設定は端末に保存します。履歴は記録画面から、権限はiPhoneの設定から管理できます。購入や外部リンクには各サービスのポリシーが適用されます。support@hinoshiba.comへのメールは、メール事業者を通じて受領し、対応または法令上必要な期間だけ保持します。同じ窓口へ削除を依頼できます。詳細は製品サイトのプライバシーポリシーをご確認ください。",
+                "Camera, microphone, and motion input are processed on the iPhone during a check. Images, video, audio, and raw sensor data are not saved or sent to the developer. Results and settings are saved on the device. Manage history in the History screen and permissions in iPhone Settings. Purchases and external links follow the respective service’s policy. Email to support@hinoshiba.com is received through our email provider and retained as needed to respond or meet legal obligations. You may request deletion at the same address. See the product website for the full policy."
             )
         case .terms:
             L10n.text(
