@@ -99,9 +99,9 @@ struct GuidedScanView: View {
                 }
 
                 VStack(spacing: 0) {
-                    scanRow(.light, detail: L10n.text("カメラ入力を解析・保存なし", "Live camera analysis; not saved"))
+                    scanRow(.light, detail: L10n.text("明るさと明暗差を確認", "Check light and contrast"))
                     Divider().padding(.leading, 46)
-                    scanRow(.noise, detail: L10n.text("音量だけを解析・保存なし", "Sound level only; not saved"))
+                    scanRow(.noise, detail: L10n.text("周囲の音量を確認", "Check ambient sound level"))
                     Divider().padding(.leading, 46)
                     scanRow(.stability, detail: L10n.text("加速度で揺れを確認", "Vibration via motion sensors"))
                     Divider().padding(.leading, 46)
@@ -160,7 +160,6 @@ struct GuidedScanView: View {
                             .fixedSize(horizontal: false, vertical: true)
                     }
 
-                    privacyNote
 
                     if coordinator.isMeasuring {
                         VStack(spacing: 8) {
@@ -239,29 +238,6 @@ struct GuidedScanView: View {
             L10n.text("普段の音がある状態で静かに待ちます。ケースや指でマイクを塞がないでください。", "Wait quietly with the room in its usual state. Do not cover the microphone with a case or finger.")
         case .stability:
             L10n.text("キーボードを打たず、机に触れない状態の小さな揺れを確認します。", "Avoid typing or touching the desk while Bameyasu checks small vibrations.")
-        default: ""
-        }
-    }
-
-    private var privacyNote: some View {
-        Label {
-            Text(stagePrivacy)
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        } icon: {
-            Image(systemName: "lock.shield.fill")
-                .foregroundStyle(WorkspaceColor.mint)
-        }
-        .padding(14)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(WorkspaceColor.mint.opacity(0.08), in: RoundedRectangle(cornerRadius: 16))
-    }
-
-    private var stagePrivacy: String {
-        switch coordinator.stage {
-        case .light: L10n.text("カメラ入力は端末上で解析し、画像・映像は保存も送信もしません。", "Camera input is analyzed on device; images and video are not saved or transmitted.")
-        case .noise: L10n.text("音声内容は認識しません。音量を端末上で解析し、音声は保存も送信もしません。", "Bameyasu does not recognize speech. Sound level is analyzed on device; audio is not saved or transmitted.")
-        case .stability: L10n.text("モーションデータはこの測定中だけ処理します。", "Motion data is processed only during this check.")
         default: ""
         }
     }

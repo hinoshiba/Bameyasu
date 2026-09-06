@@ -43,7 +43,7 @@ struct OnboardingView: View {
                         BenefitRow(icon: "sun.max.fill", title: L10n.text("光・明暗差をカメラで推定", "Estimate light and contrast"))
                         BenefitRow(icon: "waveform", title: L10n.text("音を端末上でリアルタイム解析", "Analyze sound live on device"))
                         BenefitRow(icon: "figure.seated.side", title: L10n.text("姿勢と配置を公的ガイドで確認", "Check ergonomics against public guidance"))
-                        BenefitRow(icon: "hand.raised.fill", title: L10n.text("画像・音声を保存も送信もしない", "Never save or transmit images or audio"))
+                        BenefitRow(icon: "chart.xyaxis.line", title: L10n.text("記録を比べて変化を確認", "Compare your checks over time"))
                     }
 
                     Button(action: complete) {

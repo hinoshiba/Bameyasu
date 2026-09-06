@@ -1,21 +1,18 @@
 ## Summary
 
-<!-- What changed and why? -->
+Describe the problem and the resulting behavior. Link related issues if applicable.
 
-## Verification
+## Validation
 
-- [ ] `./Scripts/check-release-readiness.sh`
-- [ ] `xcodegen generate`
-- [ ] iOS simulator build and unit tests
-- [ ] Relevant flow tested on a physical iPhone
-- [ ] Light/dark mode, Dynamic Type, and VoiceOver checked when UI changes
+Describe the checks you ran and their results. For UI changes, include the languages and screen sizes checked, with screenshots when useful. Note any checks that could not be run.
 
-## Privacy, evidence, and licensing
+## Release notes
 
-- [ ] No new collection, networking, SDK, permission, or raw sensor persistence
-- [ ] Or `PRIVACY.md`, Privacy Manifest, and App Store disclosure are updated
-- [ ] Measurement wording and limits remain accurate; no medical/compliance claim
-- [ ] `METHODOLOGY.md`, `SOURCES.md`, algorithm version, and tests are updated when scoring changes
-- [ ] Every dependency/asset has commercial permission and `THIRD_PARTY_NOTICES.txt` is updated
-- [ ] No private key, exported signing identity, certificate bundle, provisioning profile, App Store Connect API key, Keychain, signed archive, captured media, or personal data is included
-- [ ] Any release-signing change follows `docs/CODE_SIGNING.md`; same-team identity reuse happens outside the checkout
+Describe user-facing changes, compatibility or migration needs, and any remaining limitations. Write “None” if not applicable.
+
+## Checklist
+
+- [ ] The change is focused, and relevant documentation is updated.
+- [ ] Relevant local checks pass; builds for review require no maintainer credentials.
+- [ ] No secrets, personal contact details, or generated build artifacts are included. Use support@hinoshiba.com for project contact information.
+- [ ] Third-party code and assets retain their required license notices.

@@ -15,7 +15,6 @@ Bameyasuは、iPhoneを使って仕事環境の改善点を約60秒で見つけ�
 - 厚生労働省、e-Gov、NIOSH、OSHAの一次情報に基づく姿勢・配置チェック
 - 50分のフォーカスタイマーと10分の作業休止ガイド
 - 履歴と変化のチャート
-- 画像、映像、音声、生のセンサーデータを保存・送信しないオンデバイス設計
 - 日本語／英語、Dynamic Type、VoiceOver、Reduce Motion対応
 
 ## 測定の誠実さ
@@ -53,11 +52,11 @@ xcodebuild \
   test CODE_SIGNING_ALLOWED=NO
 ```
 
-`project.yml`がプロジェクト設定の正本です。Xcode Cloudが常に同じプロジェクトを読み込めるよう、生成した`Bameyasu.xcodeproj`もリポジトリに含めます。`project.yml`を変更したら`xcodegen generate`を実行し、両方を同じPRで更新してください。
+`project.yml`がプロジェクト設定の正本です。ローカルXcodeですぐに開けるよう、生成した`Bameyasu.xcodeproj`もリポジトリに含めます。`project.yml`を変更したら`xcodegen generate`を実行し、両方を同じPRで更新してください。
 
-通常のSimulatorビルドとGitHub CIは署名不要で、`CODE_SIGNING_ALLOWED=NO`を維持します。App Store向けの署名とuploadはXcode Cloudの自動署名に限定し、秘密鍵、証明書バンドル、provisioning profile、App Store Connect資格情報をGitHubに置きません。保管境界と事故対応は[コード署名ポリシー](docs/CODE_SIGNING.md)を参照してください。
+通常のSimulatorビルドとGitHub CIは署名不要で、`CODE_SIGNING_ALLOWED=NO`を維持します。App Store向けの署名とuploadは管理者のローカルXcodeで行い、秘密鍵、証明書バンドル、provisioning profile、App Store Connect資格情報をGitHubに置きません。保管境界と事故対応は[コード署名ポリシー](docs/CODE_SIGNING.md)を参照してください。
 
-App Store向けビルドはローカルで作成しません。バージョンを更新してPRをmergeした後、`vX.Y.Z`形式のタグをpushするとXcode Cloudがtest・archive・App Store Connectへのuploadを実行します。設定値と運用手順は[release runbook](docs/RELEASE.md)を参照してください。
+App Store向けビルドは、レビュー済みのコミットをローカルXcodeでArchiveし、Organizerから検証・アップロードします。タグのpushでリリースは実行されません。設定値と運用手順は[release runbook](docs/RELEASE.md)を参照してください。
 
 ## 構成
 
@@ -95,3 +94,16 @@ Bameyasuのソースコードは[MIT License](LICENSE)です。MITは商用販�
 ## English
 
 Bameyasu is an on-device SwiftUI app that helps people review light, sound, desk vibration, and ergonomics in about 60 seconds. It is a wellness and educational tool—not a medical device, calibrated instrument, or compliance meter. See [METHODOLOGY.md](METHODOLOGY.md), [PRIVACY.md](PRIVACY.md), and [TERMS.md](TERMS.md).
+
+## Website preview
+
+The Pages workflow prepares `_site/` by copying `site/` and the app icon from the asset catalog. Preview that output locally:
+
+```sh
+mkdir -p _site/assets
+cp -R site/. _site/
+cp Bameyasu/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png _site/assets/app-icon.png
+python3 -m http.server 8000 --directory _site
+```
+
+Open `http://localhost:8000/` and use the language button for Japanese/English. `_site/` is ignored build output.
