@@ -1,6 +1,10 @@
 # Local Xcode release runbook
 
-Official App Store builds are created on the maintainer's authorized Mac using local Xcode. PR CI only validates source and builds/tests an unsigned Simulator app. Release tags are source references and do not trigger uploads.
+Official App Store builds are created on the maintainer's authorized Mac using local Xcode. PR CI only validates source and builds/tests an unsigned Simulator app. After the migration check below, release tags are source references and do not trigger uploads.
+
+## One-time migration check
+
+Before creating another release tag, check whether an old Xcode Cloud release workflow exists in Xcode or App Store Connect. If it does, deactivate it and confirm its automatic branch/tag starts and distribution actions are disabled. Removing repository hooks does not change these server-side settings. Preserve existing build history and artifacts; this repository change does not confirm the remote workflow has been stopped.
 
 ## Prepare the source
 

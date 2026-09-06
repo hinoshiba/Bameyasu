@@ -56,7 +56,7 @@ xcodebuild \
 
 通常のSimulatorビルドとGitHub CIは署名不要で、`CODE_SIGNING_ALLOWED=NO`を維持します。App Store向けの署名とuploadは管理者のローカルXcodeで行い、秘密鍵、証明書バンドル、provisioning profile、App Store Connect資格情報をGitHubに置きません。保管境界と事故対応は[コード署名ポリシー](docs/CODE_SIGNING.md)を参照してください。
 
-App Store向けビルドは、レビュー済みのコミットをローカルXcodeでArchiveし、Organizerから検証・アップロードします。タグのpushでリリースは実行されません。設定値と運用手順は[release runbook](docs/RELEASE.md)を参照してください。
+App Store向けビルドは、レビュー済みのコミットをローカルXcodeでArchiveし、Organizerから検証・アップロードします。release runbookに従って旧外部ワークフローを停止した後は、タグのpushでリリースは実行されません。設定値と運用手順は[release runbook](docs/RELEASE.md)を参照してください。
 
 ## 構成
 
